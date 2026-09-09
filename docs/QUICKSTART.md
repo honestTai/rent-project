@@ -13,6 +13,8 @@
 | Redis | 7.x，网关和中台使用同一 Redis 数据库 |
 | Python | 3.10+，用于初始化；AI Agent 为可选服务 |
 
+Maven 默认从官方 Maven Central 解析依赖和插件，项目 POM 不固定第三方镜像。国内网络如需镜像，可按 [Maven 官方镜像配置说明](https://maven.apache.org/guides/mini/guide-mirror-settings.html)在自己的 `~/.m2/settings.xml` 中配置；不要将本机镜像凭据或 `settings.xml` 提交到仓库。
+
 ## 2. 初始化新数据库
 
 ```bash
