@@ -1,0 +1,60 @@
+name: Validate source and initialization
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - run: mvn -B -ntp test
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: equipment_management_system_fornt
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: equipment_management_system_fornt/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build
+      - run: npm run test:agent
+  initialization:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          # Ephemeral CI fixture credentials, never deployment defaults.
+          MYSQL_ROOT_PASSWORD: ci-mysql-fixture-only!
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -pci-mysql-fixture-only!"
+          --health-interval=10s --health-timeout=5s --health-retries=20
+    env:
+      EMS_INIT_DB_PASSWORD: ci-mysql-fixture-only!
+      EMS_INIT_ADMIN_PASSWORD: CI-admin-fixture-password!
+      RENTAL_PRODUCT_AES_SECRET: ci-only-independent-aes-fixture-32-characters
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r customer-deploy/scripts/requirements-init.txt
+      - run: python customer-deploy/scripts/check_initialization.py
+      - name: Initialize isolated databases
+        run: python customer-deploy/scripts/initialize.py --host 127.0.0.1 --user root --platform-db ci_platform --alipay-db ci_alipay --demo --execute --confirm-new-databases ci_platform,ci_alipay
+      - name: Repeat initialization without changing data
+        run: python customer-deploy/scripts/initialize.py --host 127.0.0.1 --user root --platform-db ci_platform --alipay-db ci_alipay --demo --execute --confirm-new-databases ci_platform,ci_alipay

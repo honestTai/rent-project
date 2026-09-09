@@ -1,0 +1,12 @@
+spring:
+  redis:
+    host: ${PLATFORM_REDIS_HOST:host.docker.internal}
+    port: ${PLATFORM_REDIS_PORT:6379}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://equipment-eureka:8761/eureka/
+  instance:
+    hostname: equipment-platform
+    prefer-ip-address: true

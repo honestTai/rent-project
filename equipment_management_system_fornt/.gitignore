@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.log
+.idea/
+apps/*/node_modules/
+apps/*/dist/
+deploy/

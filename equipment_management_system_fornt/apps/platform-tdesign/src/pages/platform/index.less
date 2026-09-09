@@ -1,0 +1,236 @@
+.platform-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.platform-card {
+  border-radius: 8px;
+}
+
+.platform-card-title h2 {
+  margin: 0;
+  color: #101828;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+}
+
+.platform-card-title p {
+  margin: 6px 0 0;
+  color: #344054;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.platform-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 1px solid #e4e7ec;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(16 24 40 / 4%);
+}
+
+.platform-toolbar__filters,
+.platform-toolbar__actions {
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.platform-toolbar__actions {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.platform-toolbar__actions:empty {
+  display: none;
+}
+
+.platform-toolbar__filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 312px));
+  width: 100%;
+  max-width: 100%;
+}
+
+.platform-filter {
+  width: 100%;
+  min-width: 0;
+}
+
+.platform-search {
+  width: 100%;
+  min-width: 0;
+}
+
+.platform-table-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.platform-table-action {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 6px;
+}
+
+.platform-table-action .t-button__text,
+.platform-table-action .t-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.platform-split {
+  display: grid;
+  grid-template-columns: minmax(360px, 42%) minmax(0, 1fr);
+  gap: 16px;
+}
+
+.platform-split > * {
+  min-width: 0;
+}
+
+.platform-tree-scroll {
+  max-height: calc(100vh - 300px);
+  overflow: auto;
+  padding-right: 8px;
+}
+
+.platform-rbac-resources {
+  grid-template-columns: minmax(420px, 42%) minmax(0, 1fr);
+}
+
+.platform-user-role-layout {
+  display: grid;
+  grid-template-columns: minmax(360px, 30%) minmax(0, 1fr);
+  gap: 16px;
+}
+
+.platform-user-role-layout > * {
+  min-width: 0;
+}
+
+.platform-detail-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.platform-detail-title strong {
+  font-size: 16px;
+}
+
+.platform-muted {
+  margin-top: 4px;
+  color: var(--td-text-color-secondary);
+}
+
+.platform-user-detail {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--td-component-stroke);
+}
+
+.platform-user-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.platform-user-info-grid > div {
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #e4e7ec;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.platform-user-info-grid span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--td-text-color-secondary);
+  font-size: 12px;
+}
+
+.platform-user-info-grid strong {
+  display: block;
+  overflow: hidden;
+  color: var(--td-text-color-primary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.platform-role-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px 16px;
+}
+
+.platform-role-checkboxes--dialog {
+  max-height: 220px;
+  overflow: auto;
+  padding: 12px;
+  border: 1px solid #e4e7ec;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.platform-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.platform-profile-item {
+  padding: 16px;
+  border: 1px solid #e4e7ec;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.platform-profile-item span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--td-text-color-secondary);
+}
+
+.platform-profile-item strong {
+  color: var(--td-text-color-primary);
+  font-size: 16px;
+}
+
+@media (max-width: 1024px) {
+  .platform-toolbar {
+    align-items: stretch;
+  }
+
+  .platform-split {
+    grid-template-columns: 1fr;
+  }
+
+  .platform-user-role-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .platform-filter,
+  .platform-search {
+    width: 100%;
+  }
+}

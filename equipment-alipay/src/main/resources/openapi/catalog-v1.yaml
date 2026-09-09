@@ -1,0 +1,255 @@
+openapi: 3.0.3
+info:
+  title: Rent Miniapp Catalog API
+  version: 1.2.0
+  description: 金额字段均为整数分；商品图片使用完整 HTTPS URL，分类 UI Icon 使用 antd-mini 图标名称。
+servers:
+  - url: /
+paths:
+  /api/rent/v1/miniapp/orders/analytics/yearly:
+    get:
+      summary: 当前 JWT 用户年度租赁统计
+      description: 仅使用 JWT 中的 user_uuid；months 固定返回 12 项；金额单位为整数分。
+      parameters:
+        - in: query
+          name: year
+          required: false
+          description: 四位自然年；缺失时为业务时区当前年；禁止未来年份。
+          schema: { type: string, pattern: '^[0-9]{4}$', example: '2026' }
+      responses:
+        '200':
+          description: 统一 Result 信封；非法或未来年份、查询失败均返回非零业务 code。
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Envelope'
+                  - type: object
+                    properties:
+                      data: { $ref: '#/components/schemas/YearlyOrderAnalytics' }
+  /api/rent/v1/miniapp/catalog/categories/query:
+    post:
+      summary: 查询公开启用分类树
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoriesQueryRequest'
+      responses:
+        '200':
+          description: 统一响应；includeGoodsCount=false 时 goodsCount 返回 null。
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Envelope'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        required: [list, total]
+                        properties:
+                          list:
+                            type: array
+                            items: { $ref: '#/components/schemas/Category' }
+                          total: { type: integer, format: int64 }
+  /api/rent/v1/miniapp/catalog/goods/query:
+    post:
+      summary: 分页查询公开商品
+      description: 零库存商品默认仍在公开目录与分类计数中；onlyAvailable=true 时排除。
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoodsQueryRequest'
+      responses:
+        '200':
+          description: HTTP 200；业务成败由 code 判断，非法参数不会返回假成功。
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Envelope'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        required: [list, total]
+                        properties:
+                          list:
+                            type: array
+                            items: { $ref: '#/components/schemas/Good' }
+                          total: { type: integer, format: int64 }
+  /api/web/catalog/categories/create:
+    post:
+      summary: 创建自有小程序分类
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CatalogAdminWriteRequest'
+                - type: object
+                  required: [name, shortName, icon]
+      responses:
+        '200':
+          description: icon 缺失或不在白名单时返回明确业务错误。
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Envelope' }
+  /api/web/catalog/categories/update:
+    post:
+      summary: 编辑自有小程序分类
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CatalogAdminWriteRequest' }
+      responses:
+        '200':
+          description: 更新成功；分类启停必须使用独立状态接口。
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Envelope' }
+components:
+  schemas:
+    YearlyOrderAnalytics:
+      type: object
+      required: [year, timezone, orderCount, activeCount, finishedCount, closedCount, renewOrderCount, rentAmountCents, months, statusDistribution]
+      properties:
+        year: { type: integer, example: 2026 }
+        timezone: { type: string, example: Asia/Shanghai }
+        orderCount: { type: integer, format: int64 }
+        activeCount: { type: integer, format: int64 }
+        finishedCount: { type: integer, format: int64 }
+        closedCount: { type: integer, format: int64 }
+        renewOrderCount: { type: integer, format: int64 }
+        rentAmountCents: { type: integer, format: int64, description: 年度实际确认收入，单位为分。 }
+        months:
+          type: array
+          minItems: 12
+          maxItems: 12
+          description: 固定 1 至 12 月升序，缺失月份补零。
+          items: { $ref: '#/components/schemas/YearlyOrderAnalyticsMonth' }
+        statusDistribution:
+          type: array
+          minItems: 3
+          maxItems: 3
+          items: { $ref: '#/components/schemas/YearlyOrderAnalyticsStatus' }
+    YearlyOrderAnalyticsMonth:
+      type: object
+      required: [month, orderCount, rentAmountCents]
+      properties:
+        month: { type: string, pattern: '^[0-9]{4}-(0[1-9]|1[0-2])$', example: '2026-01' }
+        orderCount: { type: integer, format: int64 }
+        rentAmountCents: { type: integer, format: int64, description: 当月实际确认收入，单位为分。 }
+    YearlyOrderAnalyticsStatus:
+      type: object
+      required: [status, count]
+      properties:
+        status: { type: string, enum: [ACTIVE, FINISHED, CLOSED] }
+        count: { type: integer, format: int64 }
+    Envelope:
+      type: object
+      required: [code, msg, data, traceId]
+      properties:
+        code: { type: integer, example: 0 }
+        msg: { type: string, example: OK }
+        message: { type: string, nullable: true, example: null }
+        data: { nullable: true }
+        traceId: { type: string, minLength: 1 }
+    CategoriesQueryRequest:
+      type: object
+      properties:
+        includeChildren: { type: boolean, default: true }
+        includeGoodsCount: { type: boolean, default: true }
+    CatalogIconName:
+      type: string
+      enum: [CompassOutline, VideoOutline, SetOutline, AppOutline, AppstoreOutline, TravelOutline,
+        CameraOutline, PlayOutline, LoopOutline, AudioOutline, CheckShieldOutline, PictureOutline,
+        GiftOutline, TagOutline]
+    CatalogAdminWriteRequest:
+      type: object
+      required: [code]
+      properties:
+        code: { type: string, pattern: '^[a-z0-9][a-z0-9-]{0,63}$' }
+        parentCode: { type: string, nullable: true }
+        name: { type: string }
+        shortName: { type: string }
+        description: { type: string, nullable: true }
+        coverImage: { type: string, format: uri, nullable: true, pattern: '^https://' }
+        icon: { $ref: '#/components/schemas/CatalogIconName' }
+        sortOrder: { type: integer, default: 100 }
+        status: { type: integer, enum: [0, 1], default: 1 }
+    Category:
+      type: object
+      required: [code, name, shortName, icon, sortOrder, children]
+      properties:
+        code: { type: string, pattern: '^[a-z0-9][a-z0-9-]{0,63}$' }
+        parentCode: { type: string, nullable: true }
+        name: { type: string }
+        shortName: { type: string }
+        description: { type: string, nullable: true }
+        coverImage: { type: string, format: uri, nullable: true, pattern: '^https://' }
+        icon:
+          description: antd-mini Icon 名称；由小程序通过 ant-icon type 动态渲染，不是图片 URL。
+          allOf:
+            - $ref: '#/components/schemas/CatalogIconName'
+        sortOrder: { type: integer }
+        goodsCount: { type: integer, format: int64, nullable: true }
+        createdAt: { type: string, nullable: true, example: '2026-07-11 15:00:00' }
+        updatedAt: { type: string, nullable: true, example: '2026-07-11 15:00:00' }
+        children:
+          type: array
+          items: { $ref: '#/components/schemas/Category' }
+    GoodsQueryRequest:
+      type: object
+      properties:
+        page: { type: integer, minimum: 1, default: 1 }
+        pageSize: { type: integer, minimum: 1, maximum: 50, default: 20 }
+        keyword: { type: string, nullable: true }
+        categoryCode: { type: string, nullable: true, pattern: '^[a-z0-9][a-z0-9-]{0,63}$' }
+        includeDescendants: { type: boolean, default: false }
+        onlyAvailable: { type: boolean, default: false }
+        sortBy: { type: string, enum: [DEFAULT, PRICE, SALES, NEWEST], default: DEFAULT }
+        sortOrder: { type: string, enum: [ASC, DESC], default: DESC }
+    Good:
+      type: object
+      required: [goodId, skuId, goodTitle, dailyPrice, monthlyPrice, deposit, cover, serviceTags,
+        inventory, sales, supportedRentUnits, defaultRentUnit, featured]
+      properties:
+        goodId: { type: string }
+        skuId: { type: string }
+        goodTitle: { type: string }
+        goodSubTitle: { type: string, nullable: true }
+        dailyPrice: { type: integer, format: int32, description: 分 }
+        monthlyPrice: { type: integer, format: int32, description: 分 }
+        deposit: { type: integer, format: int32, description: 分 }
+        cover: { type: string, format: uri, pattern: '^https://' }
+        goodLabel: { type: string, nullable: true }
+        serviceTags: { type: array, items: { type: string } }
+        inventory: { type: integer, format: int32 }
+        sales:
+          type: integer
+          format: int64
+          minimum: 0
+          description: 当前商品按 goods_id 汇总的有效租赁件数；关闭、取消和退款订单不计入。
+        minRent: { type: integer }
+        location: { type: string, nullable: true }
+        deliveryLeadTime: { type: string, nullable: true }
+        summary: { type: string, nullable: true }
+        categoryCode: { type: string, nullable: true }
+        categoryName: { type: string, nullable: true }
+        parentCategoryCode: { type: string, nullable: true }
+        parentCategoryName: { type: string, nullable: true }
+        brand: { type: string, nullable: true }
+        deviceType: { type: string, nullable: true }
+        supportedRentUnits:
+          type: array
+          items: { type: string, enum: [DAY, MONTH] }
+        defaultRentUnit: { type: string, enum: [DAY, MONTH] }
+        featured: { type: boolean }
+        featuredSort: { type: integer, format: int64, nullable: true }

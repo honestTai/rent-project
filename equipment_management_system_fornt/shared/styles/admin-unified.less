@@ -1,0 +1,1061 @@
+@ems-filter-control-width: 340px;
+@ems-control-height: 40px;
+@ems-button-height: 36px;
+@ems-radius: 8px;
+@ems-control-radius: 12px;
+
+body,
+#app,
+.t-layout,
+.t-layout__content,
+.t-content {
+  background: #f8fafc;
+  color: #344054;
+}
+
+.t-card,
+.metric-card,
+.panel,
+.home-panel,
+.analytics-card,
+.stat-card,
+.platform-card,
+.legacy-page,
+.order-container,
+.page-table__body,
+.rental-list-card,
+.table-card,
+.query-panel {
+  border: 1px solid #e4e7ec !important;
+  border-radius: @ems-radius !important;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(16 24 40 / 4%) !important;
+}
+
+.t-card__header {
+  padding: 18px 20px;
+  border-bottom: 1px solid #eef2f6;
+}
+
+.t-card__body {
+  padding: 18px 20px;
+}
+
+.legacy-page-header,
+.rental-page__header,
+.dashboard-header,
+.analytics-topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.legacy-page-header h1,
+.legacy-page-header h2,
+.rental-page__header h1,
+.dashboard-header h1,
+.analytics-topbar h1,
+.platform-card-title h2 {
+  margin: 0;
+  color: #101828;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 30px;
+}
+
+.legacy-page-header p,
+.rental-page__header p,
+.dashboard-header p,
+.analytics-topbar p,
+.platform-card-title p,
+.page-description {
+  margin: 6px 0 0;
+  color: #667085;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.platform-toolbar,
+.query-panel,
+.handle-box,
+.order-toolbar,
+.filter-panel,
+.analysis-filter,
+.rental-query,
+.inventory-query,
+.source-query,
+.second-query,
+.query-card {
+  position: relative;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-bottom: 12px !important;
+  padding: 12px 14px !important;
+  border: 1px solid #e4e7ec !important;
+  border-radius: @ems-radius !important;
+  background: #fff !important;
+  box-shadow: 0 1px 2px rgb(16 24 40 / 4%) !important;
+}
+
+.platform-toolbar,
+.order-toolbar {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+
+.query-panel .t-form--inline,
+.query-panel .t-form-inline,
+.filter-panel .t-form--inline,
+.filter-panel .t-form-inline,
+.analysis-filter .t-form--inline,
+.analysis-filter .t-form-inline,
+.rental-query-form,
+.inventory-query-form,
+.source-query-form,
+.second-query-form,
+.query-form,
+.tab-filter,
+.platform-toolbar__filters,
+.handle-box,
+.order-toolbar__main,
+.order-toolbar__sub {
+  display: grid !important;
+  grid-template-columns: repeat(3, @ems-filter-control-width) !important;
+  gap: 12px !important;
+  align-items: start !important;
+  justify-content: start;
+  width: 100%;
+  max-width: 100%;
+}
+
+.rental-query .t-card__body,
+.inventory-query .t-card__body,
+.source-query .t-card__body,
+.second-query .t-card__body,
+.filter-panel .t-card__body,
+.analysis-filter .t-card__body,
+.query-card .t-card__body {
+  padding: 0 !important;
+}
+
+.order-toolbar__main,
+.order-toolbar__sub {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.query-panel .t-form__item,
+.filter-panel .t-form__item,
+.analysis-filter .t-form__item,
+.rental-query-form .t-form__item,
+.inventory-query-form .t-form__item,
+.source-query-form .t-form__item,
+.second-query-form .t-form__item,
+.query-form .t-form__item,
+.tab-filter .t-form__item {
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+.rental-query-form .t-form__label,
+.inventory-query-form .t-form__label,
+.source-query-form .t-form__label,
+.second-query-form .t-form__label,
+.query-form .t-form__label,
+.tab-filter .t-form__label {
+  display: none !important;
+}
+
+.query-panel .t-form__controls,
+.query-panel .t-form__controls-content,
+.filter-panel .t-form__controls,
+.filter-panel .t-form__controls-content,
+.analysis-filter .t-form__controls,
+.analysis-filter .t-form__controls-content,
+.rental-query-form .t-form__controls,
+.rental-query-form .t-form__controls-content,
+.inventory-query-form .t-form__controls,
+.inventory-query-form .t-form__controls-content,
+.source-query-form .t-form__controls,
+.source-query-form .t-form__controls-content,
+.second-query-form .t-form__controls,
+.second-query-form .t-form__controls-content,
+.query-form .t-form__controls,
+.query-form .t-form__controls-content,
+.tab-filter .t-form__controls,
+.tab-filter .t-form__controls-content {
+  width: 100% !important;
+  min-width: 0 !important;
+  margin-left: 0 !important;
+}
+
+.platform-toolbar__actions,
+.handle-box__actions,
+.order-toolbar__actions,
+.filter-actions {
+  display: flex !important;
+  grid-column: 1 / -1 !important;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.platform-toolbar__actions {
+  justify-content: flex-start;
+}
+
+.second-query__item--actions {
+  display: flex !important;
+  grid-column: 1 / -1 !important;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.rental-query-form .t-form__item:has(.rental-query-button),
+.second-query-form .t-form__item:has(.second-query-button) {
+  grid-column: 1 / -1 !important;
+  justify-self: start !important;
+  width: auto !important;
+}
+
+.rental-query-form .t-form__item:has(.rental-query-button) .t-form__controls-content,
+.second-query-form .t-form__item:has(.second-query-button) .t-form__controls-content {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: auto !important;
+}
+
+.rental-page,
+.platform-page,
+.platform-home,
+#deviceList,
+#orderListPage {
+  padding: 20px !important;
+}
+
+.platform-filter,
+.platform-search,
+.handle-input,
+.handle-select,
+.title-input,
+.status-select,
+.uuid-input,
+.name-input,
+.idcard-input,
+.order-input,
+.type-select,
+.result-select,
+.keyword-input,
+.rental-query-control,
+.inventory-query-control,
+.source-query-control,
+.second-query-control,
+.filter-item,
+.form-control,
+.mini-control,
+.date-filter,
+.date-range,
+.bill-date {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.rental-query__item--range,
+.source-query__item--range,
+.second-query__item--range,
+.filter-form__item--range,
+.filter-form__item--generate {
+  grid-column: span 2 !important;
+}
+
+.second-query__item--single,
+.second-query__item--status,
+.second-query__item--buy-out,
+.second-query__item--device,
+.second-query__item--search {
+  grid-column: span 1 !important;
+}
+
+.rental-query__item--range .t-date-range-picker,
+.source-query__item--range .t-date-range-picker,
+.second-query__item--range .t-date-range-picker,
+.filter-form__item--range .t-date-range-picker,
+.order-toolbar .t-date-range-picker,
+.date-range {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.t-input,
+.t-input__wrap,
+.t-textarea,
+.t-select,
+.t-select__wrap,
+.t-date-picker,
+.t-date-range-picker,
+.t-input-number,
+.t-input-number .t-input {
+  border-radius: @ems-control-radius !important;
+}
+
+.t-input,
+.t-input__wrap,
+.t-select__wrap,
+.t-date-picker,
+.t-date-range-picker,
+.t-input-number {
+  height: @ems-control-height !important;
+  min-height: @ems-control-height !important;
+  max-height: @ems-control-height !important;
+}
+
+.t-select__wrap .t-input__wrap,
+.t-date-picker .t-input__wrap,
+.t-input-number .t-input__wrap {
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  border-radius: @ems-control-radius !important;
+}
+
+.t-date-range-picker {
+  max-width: 100%;
+  box-shadow: none !important;
+}
+
+.t-date-range-picker .t-range-input {
+  height: 100% !important;
+  min-height: @ems-control-height !important;
+  max-height: @ems-control-height !important;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0 12px;
+  border: 1px solid #d0d5dd !important;
+  border-radius: @ems-control-radius !important;
+  background: #fff;
+  box-shadow: none !important;
+}
+
+.t-date-range-picker:hover .t-range-input,
+.t-date-range-picker .t-range-input:hover {
+  border-color: #b9c2d0 !important;
+}
+
+.t-date-range-picker:focus-within .t-range-input,
+.t-date-range-picker.t-is-focused .t-range-input,
+.t-date-range-picker .t-range-input.t-is-focused {
+  border-color: var(--td-brand-color) !important;
+  box-shadow: 0 0 0 2px rgb(37 99 235 / 10%) !important;
+}
+
+.t-date-range-picker .t-range-input__inner {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  min-width: 0;
+}
+
+.t-date-range-picker .t-range-input__inner-left,
+.t-date-range-picker .t-range-input__inner-right {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.t-date-range-picker .t-range-input__separator {
+  flex: 0 0 18px;
+  margin: 0 4px;
+  text-align: center;
+}
+
+.t-date-range-picker .t-range-input__inner-left,
+.t-date-range-picker .t-range-input__inner-right,
+.t-date-range-picker .t-range-input .t-input,
+.t-date-range-picker .t-range-input .t-input__wrap,
+.t-date-range-picker .t-range-input .t-input__inner,
+.t-date-range-picker .t-range-input input {
+  min-width: 0 !important;
+  padding: 0 2px !important;
+  font-size: 13px;
+  text-align: center;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.platform-toolbar .t-button,
+.query-panel .t-button,
+.handle-box .t-button,
+.order-toolbar .t-button,
+.filter-panel .t-button,
+.analysis-filter .t-button,
+.rental-query .t-button,
+.inventory-query .t-button,
+.source-query .t-button,
+.second-query .t-button,
+.order-toolbar__button,
+.rental-query-button,
+.inventory-query-button,
+.source-query-button,
+.second-query-button,
+.filter-form__button {
+  height: @ems-button-height !important;
+  min-height: @ems-button-height !important;
+  border-radius: @ems-control-radius !important;
+}
+
+.operation-button,
+.repair-operation-button,
+.rent-operation-button,
+.sale-operation-button,
+.action-button {
+  border-radius: @ems-radius !important;
+}
+
+.t-button--variant-base {
+  box-shadow: 0 1px 2px rgb(16 24 40 / 5%);
+}
+
+.t-button--theme-primary.t-button--variant-base {
+  border-color: #2f54eb !important;
+  background: #2f54eb !important;
+  box-shadow: 0 1px 2px rgb(47 84 235 / 16%) !important;
+}
+
+.t-button--theme-primary.t-button--variant-base:hover,
+.t-button--theme-primary.t-button--variant-base:focus {
+  border-color: #2448d8 !important;
+  background: #2448d8 !important;
+}
+
+.t-button--theme-danger.t-button--variant-base {
+  border-color: #d92d20 !important;
+  background: #d92d20 !important;
+}
+
+.t-button--theme-warning.t-button--variant-base {
+  border-color: #dc6803 !important;
+  background: #dc6803 !important;
+}
+
+.t-button--theme-danger.t-button--variant-outline,
+.t-button--theme-danger.t-button--variant-text {
+  color: #b42318 !important;
+}
+
+.t-button--theme-warning.t-button--variant-outline,
+.t-button--theme-warning.t-button--variant-text {
+  color: #b54708 !important;
+}
+
+.t-table,
+.legacy-table,
+.order-table {
+  overflow: hidden;
+  border: 1px solid #eef2f6 !important;
+  border-radius: @ems-radius !important;
+  box-shadow: none !important;
+}
+
+.t-table__content {
+  border-radius: @ems-radius !important;
+}
+
+.t-table th,
+.t-table .t-table__th {
+  color: #475467;
+  font-weight: 600;
+  background: #fff !important;
+}
+
+.t-table th,
+.t-table td,
+.t-table--bordered th,
+.t-table--bordered td {
+  border-color: #f5f7fb !important;
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
+}
+
+.t-table--bordered {
+  border-color: transparent !important;
+}
+
+.t-pagination {
+  gap: 8px;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.t-pagination__number,
+.t-pagination__btn,
+.t-pagination__select,
+.t-tag,
+.trend-text {
+  border-radius: 999px !important;
+}
+
+.t-pagination__number,
+.t-pagination__btn {
+  min-width: 36px;
+  height: 36px;
+  border: 1px solid #e4e7ec;
+  background: #fff;
+}
+
+.t-pagination__total {
+  margin-right: auto;
+  color: #667085;
+}
+
+.t-popup__content,
+.t-select__dropdown,
+.t-dropdown__menu,
+.t-dialog {
+  overflow: hidden;
+  border: 1px solid #e4e7ec;
+  border-radius: @ems-radius !important;
+  box-shadow: 0 12px 28px rgb(16 24 40 / 10%);
+}
+
+.t-menu__item,
+.t-menu__sub-menu,
+.t-tabs__nav-item {
+  border-radius: @ems-radius;
+}
+
+.t-menu__item.t-is-active {
+  background: #eef4ff;
+}
+
+.t-radio-group.t-radio-group--filled {
+  border: 1px solid #d0d5dd;
+  border-radius: @ems-radius;
+  background: #f9fafb;
+  box-shadow: none;
+}
+
+.t-radio-group.t-radio-group--filled .t-radio-group__bg-block {
+  border-radius: 6px;
+  background: #465fff;
+  box-shadow: none;
+}
+
+.t-radio-group.t-radio-group--filled .t-radio-button.t-is-checked {
+  color: #fff;
+  background: transparent;
+  box-shadow: none;
+}
+
+.t-alert--warning,
+.t-tag--warning.t-tag--light,
+.trend-text--up,
+.amount-up {
+  color: #b54708 !important;
+}
+
+.t-alert--danger,
+.t-tag--danger.t-tag--light,
+.trend-text--down,
+.amount-down {
+  color: #b42318 !important;
+}
+
+.profit-box,
+.operation-group,
+.sale-operation-group,
+.rent-operation-group,
+.order-table-scroll,
+.detail-card,
+.sale-detail-card,
+.rent-detail-card,
+.remark-text,
+.amount-highlight-card,
+.goods-cover,
+.t-image {
+  border: 1px solid #eef2f6;
+  border-radius: @ems-radius !important;
+  background: #f8fafc !important;
+}
+
+.money-metric {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.money-metric__label {
+  color: #667085 !important;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.money-main {
+  margin-bottom: 0 !important;
+  color: #b54708 !important;
+}
+
+.tail-dashboard-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: calc(100vh - 88px);
+  padding: 20px;
+  background: #f8fafc;
+}
+
+.tail-dashboard-stack,
+.dashboard-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tail-dashboard-header,
+.dashboard-header,
+.analytics-topbar,
+.dashboard-overview,
+.home-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border: 1px solid #e4e7ec;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(16 24 40 / 4%);
+}
+
+.tail-dashboard-header__copy,
+.dashboard-header__copy,
+.dashboard-overview__copy {
+  min-width: 240px;
+}
+
+.tail-dashboard-kicker,
+.dashboard-kicker,
+.page-kicker {
+  color: #465fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.tail-dashboard-header h1,
+.dashboard-header h1,
+.analytics-topbar h1,
+.dashboard-overview h1,
+.home-toolbar h2 {
+  margin: 6px 0 0;
+  color: #101828;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.tail-dashboard-header p,
+.dashboard-header p,
+.analytics-topbar p,
+.dashboard-overview p,
+.page-description {
+  max-width: 760px;
+  margin: 8px 0 0;
+  color: #667085;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.tail-dashboard-toolbar,
+.tail-dashboard-page .toolbar,
+.tail-dashboard-page .toolbar-actions,
+.dashboard-toolbar,
+.tail-dashboard-page .chart-heading,
+.tail-dashboard-page .card-title,
+.metric-card__head,
+.metric-card__footer,
+.tail-card__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+.tail-dashboard-toolbar,
+.tail-dashboard-page .toolbar,
+.tail-dashboard-page .toolbar-actions,
+.dashboard-toolbar {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.tail-card,
+.panel-card,
+.analytics-card,
+.metric-card,
+.target-card,
+.compact-card,
+.chart-card {
+  height: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.tail-card__title,
+.tail-dashboard-page .panel-title span,
+.tail-dashboard-page .card-title span,
+.margin-panel__title {
+  color: #101828;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.tail-card__subtitle,
+.tail-dashboard-page .panel-title small,
+.tail-dashboard-page .card-title small,
+.margin-panel__desc {
+  margin-top: 4px;
+  color: #667085;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.metric-card {
+  min-height: 144px;
+}
+
+.metric-card--primary,
+.metric-card--blue {
+  box-shadow: 0 1px 2px rgb(16 24 40 / 4%) !important;
+}
+
+.metric-card--success,
+.metric-card--green {
+  box-shadow: 0 1px 2px rgb(16 24 40 / 4%) !important;
+}
+
+.metric-card--warning,
+.metric-card--orange,
+.metric-card--amber {
+  box-shadow: 0 1px 2px rgb(16 24 40 / 4%) !important;
+}
+
+.metric-card--danger {
+  box-shadow: 0 1px 2px rgb(16 24 40 / 4%) !important;
+}
+
+.metric-card--purple {
+  box-shadow: 0 1px 2px rgb(16 24 40 / 4%) !important;
+}
+
+.metric-card__icon {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  color: #465fff;
+  font-size: 20px;
+  background: #eef4ff;
+  border-radius: 8px;
+}
+
+.metric-card__icon--success,
+.metric-card__icon--green {
+  color: #079455;
+  background: #ecfdf3;
+}
+
+.metric-card__icon--warning,
+.metric-card__icon--orange,
+.metric-card__icon--amber {
+  color: #dc6803;
+  background: #fffaeb;
+}
+
+.metric-card__icon--danger {
+  color: #d92d20;
+  background: #fef3f2;
+}
+
+.metric-card__icon--purple {
+  color: #7f56d9;
+  background: #f4ebff;
+}
+
+.metric-card__label,
+.metric-card__footer,
+.metric-card__desc,
+.metric-card__hint,
+.target-copy,
+.target-metrics span,
+.bar-item span,
+.summary-item span,
+.summary-item em {
+  color: #667085;
+  font-size: 13px;
+}
+
+.metric-card__value {
+  margin-top: 12px;
+  overflow: hidden;
+  color: #101828;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 34px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metric-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 120px;
+  padding: 3px 7px;
+  color: #667085;
+  font-size: 12px;
+  line-height: 18px;
+  background: #f2f4f7;
+  border-radius: 999px;
+}
+
+.metric-trend b,
+.metric-trend em {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metric-trend b {
+  font-weight: 500;
+}
+
+.metric-trend em {
+  font-style: normal;
+  font-weight: 700;
+}
+
+.target-ring {
+  --target-progress: 0%;
+  display: grid;
+  width: 188px;
+  height: 188px;
+  place-items: center;
+  margin: 24px auto 18px;
+  background: conic-gradient(#465fff var(--target-progress), #eef2f6 0);
+  border-radius: 50%;
+}
+
+.target-ring > div {
+  display: grid;
+  width: 126px;
+  height: 126px;
+  place-items: center;
+  background: #fff;
+  border: 1px solid #eaecf0;
+  border-radius: 50%;
+}
+
+.target-ring strong {
+  color: #101828;
+  font-size: 30px;
+  line-height: 36px;
+}
+
+.target-ring span {
+  color: #667085;
+  font-size: 13px;
+}
+
+.target-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid #f2f4f7;
+}
+
+.target-metrics > div,
+.summary-item,
+.bar-item {
+  min-width: 0;
+}
+
+.target-metrics strong,
+.bar-item strong,
+.summary-item strong {
+  display: block;
+  margin-top: 4px;
+  overflow: hidden;
+  color: #101828;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bar-list,
+.summary-list,
+.region-rank,
+.risk-list,
+.funnel-list,
+.insight-list {
+  display: grid;
+  gap: 12px;
+}
+
+.bar-item {
+  display: grid;
+  gap: 8px;
+}
+
+.bar-item i,
+.region-rank__track,
+.funnel-row__track,
+.metric-card__track {
+  height: 8px;
+  overflow: hidden;
+  background: #eef2f6;
+  border-radius: 999px;
+}
+
+.bar-item b,
+.region-rank__bar,
+.funnel-row__bar,
+.metric-card__bar {
+  display: block;
+  height: 100%;
+  background: #465fff;
+  border-radius: inherit;
+}
+
+.main-chart,
+.trend-chart,
+.rank-chart {
+  min-height: 360px;
+}
+
+.small-chart,
+.inventory-chart {
+  min-height: 285px;
+}
+
+@media (max-width: 1280px) {
+  .query-panel .t-form--inline,
+  .query-panel .t-form-inline,
+  .filter-panel .t-form--inline,
+  .filter-panel .t-form-inline,
+  .analysis-filter .t-form--inline,
+  .analysis-filter .t-form-inline,
+  .rental-query-form,
+  .inventory-query-form,
+  .source-query-form,
+  .second-query-form,
+  .query-form,
+  .tab-filter,
+  .platform-toolbar__filters,
+  .handle-box,
+  .order-toolbar__main,
+  .order-toolbar__sub {
+    grid-template-columns: repeat(2, @ems-filter-control-width) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .legacy-page-header,
+  .rental-page__header,
+  .dashboard-header,
+  .analytics-topbar,
+  .dashboard-overview,
+  .home-toolbar,
+  .tail-dashboard-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tail-dashboard-page {
+    padding: 12px;
+  }
+
+  .target-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .query-panel .t-form--inline,
+  .query-panel .t-form-inline,
+  .filter-panel .t-form--inline,
+  .filter-panel .t-form-inline,
+  .analysis-filter .t-form--inline,
+  .analysis-filter .t-form-inline,
+  .rental-query-form,
+  .inventory-query-form,
+  .source-query-form,
+  .second-query-form,
+  .query-form,
+  .tab-filter,
+  .platform-toolbar__filters,
+  .handle-box,
+  .order-toolbar__main,
+  .order-toolbar__sub {
+    grid-template-columns: 1fr !important;
+  }
+
+  .platform-toolbar__actions,
+  .handle-box__actions,
+  .order-toolbar__actions,
+  .second-query__item--actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .platform-toolbar__actions .t-button,
+  .handle-box__actions .t-button,
+  .order-toolbar__actions .t-button,
+  .second-query__item--actions .t-button {
+    width: fit-content;
+  }
+
+  .rental-query__item--range,
+  .source-query__item--range,
+  .second-query__item--single,
+  .second-query__item--search,
+  .second-query__item--range,
+  .second-query__item--actions,
+  .filter-form__item--range,
+  .filter-form__item--generate {
+    grid-column: span 1 !important;
+  }
+
+  .t-date-range-picker .t-range-input__inner-left,
+  .t-date-range-picker .t-range-input__inner-right {
+    min-width: 0;
+  }
+}
+
+.ems-searchable-select-popup {
+  max-width: calc(100vw - 24px);
+}
+
+.ems-searchable-select-popup .t-popup__content,
+.ems-searchable-select-popup .t-select__list {
+  max-height: min(360px, calc(100vh - 48px));
+  overflow-y: auto;
+}
+
+.ems-searchable-select-popup .t-select-option {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

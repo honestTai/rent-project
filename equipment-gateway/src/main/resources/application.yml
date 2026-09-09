@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: equipment-gateway
+  profiles:
+    active: @env.profile@
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin Access-Control-Allow-Methods Access-Control-Allow-Headers
+      routes:
+        # 支付宝异步回调（无 X-Request-Source，经 Nginx /gateway/notify/ 转发）
+        - id: alipay-notify
+          uri: lb://equipment-alipay-service
+          predicates:
+            - Path=/notify/**
+        - id: alipay-service
+          uri: lb://equipment-alipay-service
+          predicates:
+            - Path=/api/web/**,/api/rent/v1/**
+        - id: agent-service
+          uri: http://${AGENT_SERVICE_HOST:127.0.0.1}:${AGENT_SERVICE_PORT:7790}
+          predicates:
+            - Path=/api/agent/**
+        - id: platform-service
+          uri: lb://equipment-platform-service
+          predicates:
+            - Path=/api/platform/**,/api/user/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+equipment:
+  gateway:
+    auth:
+      exclude-paths:
+        - /api/login/login
+        - /api/platform/public/**
+        - /api/rent/v1/miniapp/**
+      admin-paths:
+        - /api/agent/**
+        - /api/web/**
+        - /api/platform/**
+        - /api/rent/v1/admin/**
+        - /api/user/updateUser
+        - /api/user/deleteUser
+        - /api/user/addUser
+        - /api/user/viewOneUser
+      uuid-admin-paths:
+        - /api/agent/**
+        - /api/web/**
+        - /api/platform/**
+        - /api/rent/v1/admin/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: gateway,health,info

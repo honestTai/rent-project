@@ -1,0 +1,167 @@
+services:
+  redis:
+    image: redis:7.2-alpine
+    container_name: equipment-redis
+    restart: unless-stopped
+    command: ["sh", "-c", "redis-server --appendonly yes --requirepass \"$${REDIS_PASSWORD}\""]
+    environment:
+      TZ: Asia/Shanghai
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    volumes:
+      - ./data/redis:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$${REDIS_PASSWORD}\" ping | grep PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+    mem_limit: 160m
+    networks:
+      - equipment-net
+
+  equipment-eureka:
+    image: eclipse-temurin:8-jre
+    container_name: equipment-eureka
+    restart: unless-stopped
+    working_dir: /app
+    environment:
+      TZ: Asia/Shanghai
+      RENTAL_PRODUCT_AES_SECRET: ${RENTAL_PRODUCT_AES_SECRET:?set RENTAL_PRODUCT_AES_SECRET}
+      SPRING_PROFILES_ACTIVE: prod,docker
+      JAVA_OPTS: ${JAVA_OPTS_EUREKA}
+      LOGGING_FILE_PATH: /app/service-logs/equipment-eureka
+    command: ["sh", "-c", "java $$JAVA_OPTS -jar /app/app.jar"]
+    volumes:
+      - ./jars/equipment-eureka.jar:/app/app.jar:ro
+      - ./logs:/app/service-logs
+    mem_limit: 320m
+    networks:
+      - equipment-net
+
+  equipment-platform:
+    image: eclipse-temurin:8-jre
+    container_name: equipment-platform
+    restart: unless-stopped
+    working_dir: /app
+    depends_on:
+      redis:
+        condition: service_healthy
+      equipment-eureka:
+        condition: service_started
+    environment:
+      TZ: Asia/Shanghai
+      RENTAL_PRODUCT_AES_SECRET: ${RENTAL_PRODUCT_AES_SECRET:?set RENTAL_PRODUCT_AES_SECRET}
+      SPRING_PROFILES_ACTIVE: prod,docker
+      JAVA_OPTS: ${JAVA_OPTS_PLATFORM}
+      PLATFORM_DB_URL: jdbc:mysql://${RDS_HOST}:${RDS_PORT:-3306}/${RDS_PLATFORM_DATABASE:-equipment_platform}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+      PLATFORM_DB_USERNAME: ${RDS_USERNAME}
+      PLATFORM_DB_PASSWORD: ${RDS_PASSWORD}
+      PLATFORM_REDIS_HOST: redis
+      PLATFORM_REDIS_PORT: 6379
+      PLATFORM_REDIS_PASSWORD: ${REDIS_PASSWORD}
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://equipment-eureka:8761/eureka/
+      LOGGING_FILE_PATH: /app/service-logs/equipment-platform
+      SYSTEM_LOG_ROOT_PATH: /app/service-logs
+    command: ["sh", "-c", "java $$JAVA_OPTS -jar /app/app.jar"]
+    volumes:
+      - ./jars/equipment-platform.jar:/app/app.jar:ro
+      - ./logs:/app/service-logs
+    mem_limit: 640m
+    networks:
+      - equipment-net
+
+  equipment-alipay:
+    image: eclipse-temurin:8-jre
+    container_name: equipment-alipay
+    restart: unless-stopped
+    working_dir: /app
+    depends_on:
+      redis:
+        condition: service_healthy
+      equipment-eureka:
+        condition: service_started
+      equipment-platform:
+        condition: service_started
+    environment:
+      TZ: Asia/Shanghai
+      RENTAL_PRODUCT_AES_SECRET: ${RENTAL_PRODUCT_AES_SECRET:?set RENTAL_PRODUCT_AES_SECRET}
+      SPRING_PROFILES_ACTIVE: prod
+      JAVA_OPTS: ${JAVA_OPTS_ALIPAY}
+      ALIPAY_DB_URL: jdbc:mysql://${RDS_HOST}:${RDS_PORT:-3306}/${RDS_ALIPAY_DATABASE:-equipment_alipay}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+      ALIPAY_DB_USERNAME: ${RDS_USERNAME}
+      ALIPAY_DB_PASSWORD: ${RDS_PASSWORD}
+      ALIPAY_REDIS_HOST: redis
+      ALIPAY_REDIS_PORT: 6379
+      ALIPAY_REDIS_PASSWORD: ${REDIS_PASSWORD}
+      ZHONGTAI_BASE_URL: http://equipment-platform:9804
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://equipment-eureka:8761/eureka/
+      LOGGING_FILE_PATH: /app/service-logs/equipment-alipay
+    command: ["sh", "-c", "java $$JAVA_OPTS -jar /app/app.jar"]
+    volumes:
+      - ./jars/equipment-alipay.jar:/app/app.jar:ro
+      - ./uploads:/app/uploads
+      - ./logs:/app/service-logs
+    mem_limit: 800m
+    networks:
+      - equipment-net
+
+  equipment-gateway:
+    image: eclipse-temurin:8-jre
+    container_name: equipment-gateway
+    restart: unless-stopped
+    working_dir: /app
+    depends_on:
+      redis:
+        condition: service_healthy
+      equipment-eureka:
+        condition: service_started
+      equipment-platform:
+        condition: service_started
+      equipment-alipay:
+        condition: service_started
+    environment:
+      TZ: Asia/Shanghai
+      RENTAL_PRODUCT_AES_SECRET: ${RENTAL_PRODUCT_AES_SECRET:?set RENTAL_PRODUCT_AES_SECRET}
+      SPRING_PROFILES_ACTIVE: prod,docker
+      JAVA_OPTS: ${JAVA_OPTS_GATEWAY}
+      PLATFORM_DB_URL: jdbc:mysql://${RDS_HOST}:${RDS_PORT:-3306}/${RDS_PLATFORM_DATABASE:-equipment_platform}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+      PLATFORM_DB_USERNAME: ${RDS_USERNAME}
+      PLATFORM_DB_PASSWORD: ${RDS_PASSWORD}
+      GATEWAY_REDIS_HOST: redis
+      GATEWAY_REDIS_PORT: 6379
+      GATEWAY_REDIS_PASSWORD: ${REDIS_PASSWORD}
+      EUREKA_SERVICE_HOST: equipment-eureka
+      EUREKA_SERVICE_PORT: 8761
+      ALIPAY_SERVICE_HOST: equipment-alipay
+      ALIPAY_SERVICE_PORT: 9803
+      PLATFORM_SERVICE_HOST: equipment-platform
+      PLATFORM_SERVICE_PORT: 9804
+      LOGGING_FILE_PATH: /app/service-logs/equipment-gateway
+    command: ["sh", "-c", "java $$JAVA_OPTS -jar /app/app.jar"]
+    volumes:
+      - ./jars/equipment-gateway.jar:/app/app.jar:ro
+      - ./logs:/app/service-logs
+    mem_limit: 640m
+    networks:
+      - equipment-net
+
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: equipment-nginx
+    restart: unless-stopped
+    depends_on:
+      equipment-gateway:
+        condition: service_started
+    mem_limit: 128m
+    ports:
+      - "${HTTP_BIND:-127.0.0.1}:${HTTP_PORT:-8080}:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./www/platform:/usr/share/nginx/html/platform:ro
+      - ./www/rent:/usr/share/nginx/html/rent:ro
+      - ./uploads:/usr/share/nginx/html/uploads:ro
+      - ./logs/nginx:/var/log/nginx
+    networks:
+      - equipment-net
+
+networks:
+  equipment-net:

@@ -1,0 +1,51 @@
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  type-aliases-package: com.fly.rent.entity
+  global-config:
+    db-config:
+      id-type: auto
+      insert-strategy: not_null
+      update-strategy: not_null
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+
+spring:
+  application:
+    name: equipment-alipay-service
+  profiles:
+    active: @env.profile@
+    include: shared-oss
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+# 上传接口路径挂在 /api/web 下，以便网关转发到支付宝租赁服务。
+equipment:
+  oss:
+    api-base: /api/web/oss
+
+rent:
+  business-timezone: ${RENT_BUSINESS_TIMEZONE:Asia/Shanghai}
+
+# Miniapp JWT settings are loaded from platform_config (system_code=alipay).
+# Configure miniapp.jwt.server-secret, issuer, audience and expire-minutes there.

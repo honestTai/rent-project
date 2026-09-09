@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.login.UserLoginMapper">
+    <select id="userName" resultType="java.lang.Integer" parameterType="com.common.login.LoginParam">
+        select count(*) from user where userName = #{userName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="userInfo" resultType="com.common.login.LoginUser" parameterType="com.common.login.LoginParam">
+        select *
+        from user
+        where userName = #{userName,jdbcType=VARCHAR}
+          and userPwd = #{userPwd,jdbcType=VARCHAR}
+    </select>
+</mapper>

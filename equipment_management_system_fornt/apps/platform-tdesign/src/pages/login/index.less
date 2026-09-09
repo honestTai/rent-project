@@ -1,0 +1,116 @@
+.light {
+  &.login-wrapper {
+    background-color: #f2f0e9;
+    background-image:
+      linear-gradient(rgb(18 19 15 / 4%) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(18 19 15 / 4%) 1px, transparent 1px),
+      radial-gradient(circle at 82% 18%, rgb(49 87 245 / 14%), transparent 34%);
+    background-size: 36px 36px, 36px 36px, auto;
+  }
+}
+
+.dark {
+  &.login-wrapper {
+    background-color: var(--td-bg-color-page);
+    background-image: url('@/assets/assets-login-bg-black.png');
+  }
+}
+
+.login-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-size: cover;
+  background-position: 100%;
+  position: relative;
+}
+
+.login-container {
+  position: absolute;
+  top: 22%;
+  left: 5%;
+  min-height: 500px;
+}
+
+.title-container {
+  .title {
+    font: var(--td-font-headline-large);
+    color: var(--td-text-color-primary);
+    letter-spacing: -0.02em;
+    margin-top: var(--td-comp-margin-xs);
+
+    &.margin-no {
+      margin-top: 0;
+    }
+  }
+
+  .sub-title {
+    margin-top: var(--td-comp-margin-xxl);
+
+    .tip {
+      display: inline-block;
+      margin-right: var(--td-comp-margin-s);
+      font: var(--td-font-body-medium);
+
+      &:first-child {
+        color: var(--td-text-color-secondary);
+      }
+
+      &:last-child {
+        color: var(--td-text-color-primary);
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.item-container {
+  width: 400px;
+  margin-top: var(--td-comp-margin-xxxxl);
+
+  .check-container {
+    display: flex;
+    align-items: center;
+
+    &.remember-pwd {
+      margin-bottom: var(--td-comp-margin-l);
+      justify-content: space-between;
+    }
+
+    span {
+      color: var(--td-brand-color);
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .btn-container {
+    margin-top: var(--td-comp-margin-xxxxl);
+  }
+}
+
+.check-container {
+  font: var(--td-font-body-medium);
+  color: var(--td-text-color-secondary);
+
+  .tip {
+    float: right;
+    font: var(--td-font-body-medium);
+    color: var(--td-brand-color);
+  }
+}
+
+.login-site-footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+@media screen and (height <= 700px) {
+  .login-container {
+    top: 14%;
+  }
+}

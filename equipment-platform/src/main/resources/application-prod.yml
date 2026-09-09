@@ -1,0 +1,15 @@
+server:
+  port: 9804
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${PLATFORM_DB_USERNAME:}
+    password: ${PLATFORM_DB_PASSWORD:}
+    url: ${PLATFORM_DB_URL:jdbc:mysql://127.0.0.1:3306/equipment_platform?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true}
+  redis:
+    database: 0
+    host: ${PLATFORM_REDIS_HOST:127.0.0.1}
+    port: ${PLATFORM_REDIS_PORT:6379}
+    password: ${PLATFORM_REDIS_PASSWORD:}
+    timeout: 10000

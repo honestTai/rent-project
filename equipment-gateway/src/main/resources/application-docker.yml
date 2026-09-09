@@ -1,0 +1,31 @@
+spring:
+  redis:
+    host: ${GATEWAY_REDIS_HOST:127.0.0.1}
+    port: ${GATEWAY_REDIS_PORT:6379}
+  cloud:
+    gateway:
+      routes:
+        - id: alipay-notify
+          uri: http://${ALIPAY_SERVICE_HOST:127.0.0.1}:${ALIPAY_SERVICE_PORT:7781}
+          predicates:
+            - Path=/notify/**
+        - id: alipay-service
+          uri: http://${ALIPAY_SERVICE_HOST:127.0.0.1}:${ALIPAY_SERVICE_PORT:7781}
+          predicates:
+            - Path=/api/web/**,/api/rent/v1/**
+        - id: agent-service
+          uri: http://${AGENT_SERVICE_HOST:127.0.0.1}:${AGENT_SERVICE_PORT:7790}
+          predicates:
+            - Path=/api/agent/**
+        - id: platform-service
+          uri: http://${PLATFORM_SERVICE_HOST:127.0.0.1}:${PLATFORM_SERVICE_PORT:7780}
+          predicates:
+            - Path=/api/platform/**,/api/user/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_SERVICE_HOST:127.0.0.1}:${EUREKA_SERVICE_PORT:8761}/eureka/
+  instance:
+    hostname: equipment-gateway
+    prefer-ip-address: true

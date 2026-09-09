@@ -1,0 +1,20 @@
+server:
+  port: 9803
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  redis:
+    database: 1
+    host: ${ALIPAY_REDIS_HOST:127.0.0.1}
+    port: ${ALIPAY_REDIS_PORT:6379}
+    password: ${ALIPAY_REDIS_PASSWORD:}
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${ALIPAY_DB_USERNAME:}
+    password: ${ALIPAY_DB_PASSWORD:}
+    url: ${ALIPAY_DB_URL:jdbc:mysql://127.0.0.1:3306/equipment_alipay?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true}
+
+zhongtai:
+  client:
+    base-url: ${ZHONGTAI_BASE_URL:http://equipment-platform-service:9804}

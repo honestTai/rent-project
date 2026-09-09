@@ -1,0 +1,69 @@
+# Private workstation and deployment configuration
+/.agents/
+/.artifacts/
+/.codex-logs/
+/.superpowers/
+/.trae/
+/.cursor/
+.env
+.env.local
+.env.*.local
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# Build products, dependencies and editor files
+**/target/
+**/dist/
+**/node_modules/
+**/.venv/
+**/.venv-*/
+**/.pytest_cache/
+**/__pycache__/
+**/*.egg-info/
+*.py[cod]
+*.class
+*.jar
+*.war
+*.zip
+*.tar.gz
+*.rar
+*.log
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+/site/
+
+# Runtime data and secrets are never source
+customer-deploy/jars/*
+!customer-deploy/jars/.gitkeep
+customer-deploy/www/
+customer-deploy/uploads/*
+!customer-deploy/uploads/.gitkeep
+customer-deploy/logs/
+customer-deploy/data/
+equipment-agent/*.sqlite3*
+equipment-agent/.agent-data/
+**/test-results/
+**/logs/*.log*
+
+# Unreviewed legacy customer documents remain local
+/docs/generated/
+/docs/_build_customer_docs.py
+/docs/*.docx
+/docs/*.xlsx
+/docs/产品功能说明.md
+/docs/~$*
+
+# Copied wrappers have no .mvn metadata; use installed Maven.
+/mvnw
+/mvnw.cmd
+
+# Legacy customer showcase media is not part of the public project
+/equipment_management_system_fornt/apps/rent-tdesign/public/delivery-showcase/

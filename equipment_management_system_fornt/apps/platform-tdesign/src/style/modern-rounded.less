@@ -1,0 +1,754 @@
+body {
+  background: #f8fafc;
+}
+
+#app {
+  color: #344054;
+}
+
+.t-layout,
+.t-layout__content,
+.t-content {
+  background: #f8fafc;
+}
+
+.t-card {
+  overflow: hidden;
+  border: 1px solid #e4e7ec;
+  border-radius: 20px;
+  box-shadow: 0 1px 2px rgb(16 24 40 / 4%);
+}
+
+.metric-card,
+.panel,
+.home-panel,
+.analytics-card,
+.stat-card,
+.platform-card,
+.legacy-page,
+.order-container,
+.page-table__body,
+.query-panel {
+  border: 1px solid #e4e7ec;
+  border-radius: 20px;
+  box-shadow: 0 1px 2px rgb(16 24 40 / 4%);
+}
+
+.t-card__header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #eef2f6;
+}
+
+.t-card__body {
+  padding: 20px 24px;
+}
+
+.t-button {
+  border-radius: 999px;
+}
+
+.t-button--variant-base {
+  box-shadow: 0 1px 2px rgb(16 24 40 / 5%);
+}
+
+.t-input,
+.t-textarea,
+.t-select__wrap,
+.t-input-number,
+.t-date-range-picker,
+.t-date-picker,
+.t-pagination__number,
+.t-pagination__btn {
+  border-radius: 14px;
+}
+
+.t-table {
+  overflow: hidden;
+  border: 1px solid #eef2f6;
+  border-radius: 16px;
+}
+
+.t-table__content {
+  border-radius: 16px;
+}
+
+.t-table th {
+  color: #475467;
+  font-weight: 600;
+  background: #fff;
+}
+
+.t-table th,
+.t-table td {
+  border-color: #f2f4f7;
+}
+
+.t-table__pagination {
+  padding: 16px 20px;
+  border-top: 1px solid #eef2f6;
+  background: #fff;
+}
+
+.t-pagination {
+  gap: 8px;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.t-pagination__number,
+.t-pagination__btn,
+.t-pagination__select {
+  border-radius: 999px;
+}
+
+.t-pagination__number,
+.t-pagination__btn {
+  min-width: 36px;
+  height: 36px;
+  border: 1px solid #e4e7ec;
+  background: #fff;
+}
+
+.t-pagination__total {
+  margin-right: auto;
+  color: #667085;
+}
+
+.t-pagination__number.t-is-current {
+  color: #fff;
+  border-color: var(--td-brand-color);
+  background: var(--td-brand-color);
+  box-shadow: 0 6px 14px rgb(21 112 239 / 16%);
+}
+
+.legacy-table,
+.order-table {
+  overflow: hidden;
+  border: 1px solid #eef2f6;
+  border-radius: 16px;
+}
+
+.t-form--inline {
+  row-gap: 12px;
+}
+
+.t-dialog .t-table,
+.t-popup .t-table {
+  border-radius: 14px;
+}
+
+.quick-grid button {
+  border-color: #e4e7ec;
+  border-radius: 16px;
+}
+
+.trend-text {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.trend-text--up {
+  color: var(--td-success-color);
+  background: var(--td-success-color-1);
+}
+
+.trend-text--down {
+  color: var(--td-error-color);
+  background: var(--td-error-color-1);
+}
+
+.trend-text--flat {
+  color: var(--td-text-color-secondary);
+  background: #f2f4f7;
+}
+
+.t-tag {
+  border-radius: 999px;
+}
+
+.t-radio-group.t-radio-group--filled {
+  border: 1px solid #d0d5dd;
+  background: #f9fafb;
+  box-shadow: none;
+}
+
+.t-radio-group.t-radio-group--filled .t-radio-group__bg-block {
+  background: #465fff;
+  box-shadow: none;
+}
+
+.t-radio-group.t-radio-group--filled .t-radio-button.t-is-checked {
+  color: #fff;
+  background: transparent;
+  box-shadow: none;
+}
+
+.t-menu__item,
+.t-menu__sub-menu {
+  border-radius: 12px;
+}
+
+.t-menu__item.t-is-active {
+  background: #eef4ff;
+}
+
+.t-popup__content,
+.t-select__dropdown,
+.t-dropdown__menu {
+  overflow: hidden;
+  border: 1px solid #e4e7ec;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgb(16 24 40 / 10%);
+}
+
+.t-dialog {
+  border-radius: 20px;
+}
+
+.t-dialog__header {
+  border-bottom: 1px solid #eef2f6;
+}
+
+.t-tabs__nav-item {
+  border-radius: 12px;
+}
+
+.t-button,
+.operation-button,
+.repair-operation-button,
+.rent-operation-button,
+.sale-operation-button,
+.action-button,
+.order-toolbar__button {
+  min-height: 34px;
+  border-radius: 999px !important;
+}
+
+.t-form {
+  --td-radius-default: 12px;
+}
+
+.t-form__label {
+  color: #344054;
+  font-weight: 500;
+}
+
+.t-form__controls-content {
+  min-height: 40px;
+}
+
+.query-panel,
+.handle-box,
+.order-toolbar,
+.filter-panel,
+.analysis-filter,
+.rental-query,
+.inventory-query,
+.source-query,
+.second-query,
+.query-card {
+  position: relative;
+  margin-bottom: 12px;
+  padding: 12px 14px !important;
+  border: 1px solid #e4e7ec !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  box-shadow: 0 1px 2px rgb(16 24 40 / 4%) !important;
+}
+
+.query-panel .t-form--inline,
+.filter-panel .t-form--inline,
+.analysis-filter .t-form--inline,
+.rental-query-form,
+.inventory-query-form,
+.source-query-form,
+.second-query-form,
+.query-form,
+.tab-filter {
+  display: grid !important;
+  grid-template-columns: repeat(2, 312px);
+  gap: 12px !important;
+  align-items: start !important;
+  width: max-content;
+  max-width: 100%;
+}
+
+.query-panel .t-form__item,
+.filter-panel .t-form__item,
+.analysis-filter .t-form__item,
+.rental-query-form .t-form__item,
+.inventory-query-form .t-form__item,
+.source-query-form .t-form__item,
+.second-query-form .t-form__item,
+.query-form .t-form__item,
+.tab-filter .t-form__item {
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+.query-panel .t-form__controls,
+.query-panel .t-form__controls-content,
+.filter-panel .t-form__controls,
+.filter-panel .t-form__controls-content,
+.analysis-filter .t-form__controls,
+.analysis-filter .t-form__controls-content,
+.rental-query-form .t-form__controls,
+.rental-query-form .t-form__controls-content,
+.inventory-query-form .t-form__controls,
+.inventory-query-form .t-form__controls-content,
+.source-query-form .t-form__controls,
+.source-query-form .t-form__controls-content,
+.second-query-form .t-form__controls,
+.second-query-form .t-form__controls-content,
+.query-form .t-form__controls,
+.query-form .t-form__controls-content,
+.tab-filter .t-form__controls,
+.tab-filter .t-form__controls-content {
+  width: 100%;
+  min-width: 0;
+}
+
+.platform-filter,
+.handle-input,
+.handle-select,
+.title-input,
+.status-select,
+.uuid-input,
+.name-input,
+.idcard-input,
+.order-input,
+.type-select,
+.result-select,
+.keyword-input,
+.rental-query-control,
+.inventory-query-control,
+.source-query-control,
+.second-query-control,
+.form-control,
+.mini-control {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.title-input,
+.order-input,
+.uuid-input,
+.name-input,
+.idcard-input {
+  width: 100% !important;
+}
+
+.status-select,
+.type-select,
+.result-select {
+  width: 100% !important;
+}
+
+.order-toolbar__main,
+.order-toolbar__sub,
+.platform-toolbar__filters,
+.platform-toolbar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.handle-box {
+  display: grid;
+  grid-template-columns: repeat(2, 312px);
+  gap: 12px;
+  align-items: start;
+  width: max-content;
+  max-width: 100%;
+}
+
+.handle-box .t-input,
+.handle-box .t-select,
+.handle-box .t-select__wrap,
+.handle-box .t-date-picker,
+.handle-box .t-date-range-picker,
+.handle-box .t-input-number {
+  width: 100%;
+}
+
+.handle-box .device-list-label,
+.handle-box label {
+  margin-right: 2px;
+  color: #344054;
+  font-weight: 500;
+  line-height: 34px;
+}
+
+.handle-box .t-button,
+.query-panel .t-button,
+.filter-panel .t-button,
+.analysis-filter .t-button,
+.rental-query .t-button,
+.inventory-query .t-button,
+.source-query .t-button,
+.second-query .t-button,
+.query-card .t-button,
+.order-toolbar .t-button {
+  justify-self: start;
+  width: auto !important;
+  min-width: 72px;
+  padding-right: 16px;
+  padding-left: 16px;
+}
+
+.query-panel .t-form__item:has(.t-button),
+.filter-panel .t-form__item:has(.t-button),
+.analysis-filter .t-form__item:has(.t-button),
+.rental-query-form .t-form__item:has(.t-button),
+.inventory-query-form .t-form__item:has(.t-button),
+.source-query-form .t-form__item:has(.t-button),
+.second-query-form .t-form__item:has(.t-button),
+.query-form .t-form__item:has(.t-button),
+.tab-filter .t-form__item:has(.t-button) {
+  grid-column: 1 / -1;
+  justify-self: stretch;
+  width: auto !important;
+}
+
+.query-panel .t-form__item:has(.t-button) .t-form__controls-content,
+.filter-panel .t-form__item:has(.t-button) .t-form__controls-content,
+.analysis-filter .t-form__item:has(.t-button) .t-form__controls-content,
+.rental-query-form .t-form__item:has(.t-button) .t-form__controls-content,
+.inventory-query-form .t-form__item:has(.t-button) .t-form__controls-content,
+.source-query-form .t-form__item:has(.t-button) .t-form__controls-content,
+.second-query-form .t-form__item:has(.t-button) .t-form__controls-content,
+.query-form .t-form__item:has(.t-button) .t-form__controls-content,
+.tab-filter .t-form__item:has(.t-button) .t-form__controls-content {
+  display: inline-flex;
+  width: auto;
+  gap: 8px;
+}
+
+.order-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+
+.order-toolbar__main,
+.order-toolbar__sub {
+  padding: 12px;
+  border: 1px solid #eef2f6;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.order-toolbar__button,
+.rental-query-button,
+.inventory-query-button,
+.source-query-button,
+.second-query-button,
+.filter-form__button {
+  justify-self: start;
+  width: auto !important;
+  min-width: 72px;
+}
+
+.rental-query__item--range,
+.source-query__item--range,
+.second-query__item--range,
+.filter-form__item--range,
+.filter-form__item--generate {
+  grid-column: span 2 !important;
+}
+
+.date-range {
+  width: min(525px, 100%) !important;
+}
+
+.bill-date {
+  width: 180px !important;
+}
+
+@media (max-width: 1400px) {
+  .query-panel .t-form--inline,
+  .filter-panel .t-form--inline,
+  .analysis-filter .t-form--inline,
+  .rental-query-form,
+  .inventory-query-form,
+  .source-query-form,
+  .second-query-form,
+  .query-form,
+  .tab-filter {
+    grid-template-columns: repeat(2, 312px) !important;
+  }
+
+  .rental-query__item--range,
+  .source-query__item--range,
+  .second-query__item--range,
+  .filter-form__item--range,
+  .filter-form__item--generate {
+    grid-column: span 2 !important;
+  }
+}
+
+.t-input,
+.t-textarea,
+.t-select,
+.t-select__wrap,
+.t-date-picker,
+.t-date-range-picker,
+.t-input-number,
+.t-input-number .t-input {
+  border-radius: 12px;
+}
+
+.t-input,
+.t-select__wrap,
+.t-date-picker,
+.t-date-range-picker,
+.t-input-number {
+  min-height: 40px;
+}
+
+.t-date-range-picker {
+  width: 424px;
+  max-width: 100%;
+  box-shadow: none !important;
+}
+
+.t-date-range-picker .t-range-input {
+  width: 100%;
+  min-width: 0;
+  padding: 0 12px;
+  background: #fff;
+  box-shadow: none !important;
+}
+
+.t-date-range-picker .t-range-input__inner {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  min-width: 0;
+}
+
+.t-date-range-picker .t-range-input__inner-left,
+.t-date-range-picker .t-range-input__inner-right {
+  flex: 1 1 0;
+  min-width: 142px;
+}
+
+.t-date-range-picker .t-range-input__separator {
+  flex: 0 0 24px;
+  margin: 0 8px;
+  text-align: center;
+}
+
+.t-date-range-picker .t-range-input__inner-left,
+.t-date-range-picker .t-range-input__inner-right,
+.t-date-range-picker .t-range-input .t-input,
+.t-date-range-picker .t-range-input .t-input__wrap,
+.t-date-range-picker .t-range-input .t-input__inner,
+.t-date-range-picker .t-range-input input {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.t-date-range-picker .t-range-input input {
+  min-width: 0;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .query-panel .t-form--inline,
+  .filter-panel .t-form--inline,
+  .analysis-filter .t-form--inline,
+  .rental-query-form,
+  .inventory-query-form,
+  .source-query-form,
+  .second-query-form,
+  .query-form,
+  .tab-filter {
+    grid-template-columns: 1fr !important;
+    width: 100%;
+  }
+
+  .order-toolbar__main,
+  .order-toolbar__sub,
+  .platform-toolbar__filters,
+  .platform-toolbar__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .handle-box {
+    grid-template-columns: 1fr !important;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .order-toolbar__button,
+  .rental-query-button,
+  .inventory-query-button,
+  .source-query-button,
+  .second-query-button,
+  .filter-form__button,
+  .handle-box .t-button {
+    width: auto !important;
+  }
+
+  .platform-filter,
+  .handle-input,
+  .handle-select,
+  .title-input,
+  .status-select,
+  .uuid-input,
+  .name-input,
+  .idcard-input,
+  .order-input,
+  .type-select,
+  .result-select,
+  .keyword-input,
+  .rental-query-control,
+  .inventory-query-control,
+  .source-query-control,
+  .second-query-control,
+  .form-control,
+  .mini-control {
+    width: 100% !important;
+  }
+
+  .rental-query__item--range,
+  .source-query__item--range,
+  .second-query__item--range,
+  .filter-form__item--range,
+  .filter-form__item--generate {
+    grid-column: span 1 !important;
+  }
+
+  .t-date-range-picker {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .t-date-range-picker .t-range-input__inner-left,
+  .t-date-range-picker .t-range-input__inner-right {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .query-panel .t-form--inline,
+  .filter-panel .t-form--inline,
+  .analysis-filter .t-form--inline,
+  .rental-query-form,
+  .inventory-query-form,
+  .source-query-form,
+  .second-query-form,
+  .query-form,
+  .tab-filter {
+    grid-template-columns: 1fr !important;
+  }
+
+  .handle-box {
+    grid-template-columns: 1fr !important;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .rental-query__item--range,
+  .source-query__item--range,
+  .second-query__item--range,
+  .filter-form__item--range,
+  .filter-form__item--generate {
+    grid-column: span 1 !important;
+  }
+}
+
+.legacy-page-header,
+.page-description {
+  color: #344054;
+}
+
+.legacy-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.legacy-page-header h1,
+.legacy-page-header h2 {
+  margin: 0;
+  color: #101828;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 30px;
+}
+
+.legacy-page-header p,
+.page-description,
+.dashboard-header p,
+.analytics-topbar p {
+  margin: 6px 0 0;
+  color: #344054;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.system-select-card {
+  border-radius: 16px;
+}
+
+.t-table td:last-child .t-link,
+.t-table td:last-child .t-button--variant-text,
+.t-table .t-table__cell--fixed-right .t-link,
+.t-table .t-table__cell--fixed-right .t-button--variant-text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid #d6e4ff;
+  border-radius: 999px !important;
+  background: #eef4ff;
+  color: var(--td-brand-color);
+  font-weight: 500;
+  line-height: 28px;
+  text-decoration: none;
+}
+
+.t-table td:last-child .t-link + .t-link,
+.t-table td:last-child .t-button--variant-text + .t-button--variant-text,
+.t-table .t-table__cell--fixed-right .t-link + .t-link,
+.t-table .t-table__cell--fixed-right .t-button--variant-text + .t-button--variant-text {
+  margin-left: 6px;
+}
+
+.t-table td:last-child .t-link--theme-danger,
+.t-table td:last-child .t-button--theme-danger.t-button--variant-text,
+.t-table .t-table__cell--fixed-right .t-link--theme-danger,
+.t-table .t-table__cell--fixed-right .t-button--theme-danger.t-button--variant-text {
+  border-color: #fecdca;
+  background: #fef3f2;
+  color: var(--td-error-color);
+}
+
+.t-table td:last-child .t-link--theme-warning,
+.t-table td:last-child .t-button--theme-warning.t-button--variant-text,
+.t-table .t-table__cell--fixed-right .t-link--theme-warning,
+.t-table .t-table__cell--fixed-right .t-button--theme-warning.t-button--variant-text {
+  border-color: #fedf89;
+  background: #fffaeb;
+  color: var(--td-warning-color);
+}
+
+.t-table td:last-child .t-button--variant-text::after,
+.t-table .t-table__cell--fixed-right .t-button--variant-text::after {
+  display: none;
+}

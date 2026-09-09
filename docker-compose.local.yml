@@ -1,0 +1,68 @@
+services:
+  equipment-eureka:
+    image: equipment-eureka:local
+    container_name: equipment-eureka
+    build:
+      context: .
+      dockerfile: docker/spring-boot.Dockerfile
+      args:
+        MODULE_NAME: equipment-eureka
+    environment:
+      SPRING_PROFILES_ACTIVE: local,docker
+      JAVA_OPTS: -Xms128m -Xmx256m
+    ports:
+      - "8761:8761"
+    restart: unless-stopped
+    networks:
+      - equipment-local
+
+  equipment-platform:
+    image: equipment-platform:local
+    container_name: equipment-platform
+    build:
+      context: .
+      dockerfile: docker/spring-boot.Dockerfile
+      args:
+        MODULE_NAME: equipment-platform
+    environment:
+      SPRING_PROFILES_ACTIVE: local,docker
+      PLATFORM_REDIS_HOST: host.docker.internal
+      PLATFORM_REDIS_PORT: 6379
+      JAVA_OPTS: -Xms256m -Xmx512m
+    ports:
+      - "7780:7780"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - equipment-eureka
+    restart: unless-stopped
+    networks:
+      - equipment-local
+
+  equipment-gateway:
+    image: equipment-gateway:local
+    container_name: equipment-gateway
+    build:
+      context: .
+      dockerfile: docker/spring-boot.Dockerfile
+      args:
+        MODULE_NAME: equipment-gateway
+    environment:
+      SPRING_PROFILES_ACTIVE: local,docker
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"service-url":{"defaultZone":"http://127.0.0.1:8761/eureka/"}}}}'
+      EUREKA_SERVICE_HOST: 127.0.0.1
+      EUREKA_SERVICE_PORT: 8761
+      GATEWAY_REDIS_HOST: 127.0.0.1
+      GATEWAY_REDIS_PORT: 6379
+      ALIPAY_SERVICE_HOST: 127.0.0.1
+      PLATFORM_SERVICE_HOST: 127.0.0.1
+      JAVA_OPTS: -Xms256m -Xmx512m
+    network_mode: host
+    depends_on:
+      - equipment-eureka
+      - equipment-platform
+    restart: unless-stopped
+
+networks:
+  equipment-local:
+    name: equipment-local

@@ -1,0 +1,19 @@
+server:
+  port: 7780
+
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: false
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${PLATFORM_DB_URL:jdbc:mysql://127.0.0.1:3306/equipment_platform?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai}
+    username: ${PLATFORM_DB_USERNAME:root}
+    password: ${PLATFORM_DB_PASSWORD:}
+  redis:
+    database: ${PLATFORM_REDIS_DATABASE:0}
+    host: ${PLATFORM_REDIS_HOST:127.0.0.1}
+    port: ${PLATFORM_REDIS_PORT:6379}
+    password: ${PLATFORM_REDIS_PASSWORD:}

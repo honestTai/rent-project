@@ -1,0 +1,25 @@
+{
+  "name": "equipment-frontend-monorepo",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:platform": "npm --workspace @ems/platform-tdesign run dev",
+    "dev:rent": "npm --workspace @ems/rent-tdesign run dev",
+    "build": "npm run build:platform && npm run build:rent",
+    "build:platform": "npm --workspace @ems/platform-tdesign run build",
+    "build:rent": "npm --workspace @ems/rent-tdesign run build",
+    "build:type": "npm run build:type:platform && npm run build:type:rent",
+    "build:type:platform": "npm --workspace @ems/platform-tdesign run build:type",
+    "build:type:rent": "npm --workspace @ems/rent-tdesign run build:type",
+    "test:agent": "node --experimental-strip-types --test shared/agent/stream.test.ts shared/agent/run-state.test.ts shared/agent/questions.test.ts shared/components/agent/AgentQuestionPrompt.test.ts"
+  },
+  "devDependencies": {
+    "@vue/compiler-sfc": "3.5.34",
+    "core-js": "3.49.0",
+    "vue": "3.5.34"
+  },
+  "license": "AGPL-3.0-only"
+}

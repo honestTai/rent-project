@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+
+    <property name="APP_NAME" value="equipment-eureka"/>
+    <include resource="logback-common.xml"/>
+
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="com.netflix.eureka" level="INFO"/>
+    <logger name="com.netflix.discovery" level="INFO"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="INFO_FILE"/>
+        <appender-ref ref="WARN_FILE"/>
+        <appender-ref ref="ERROR_FILE"/>
+    </root>
+
+</configuration>

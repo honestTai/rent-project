@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+
+    <!-- 中台服务接入公共 logback 文件输出，供系统日志中心只读展示。 -->
+    <property name="APP_NAME" value="equipment-platform"/>
+    <include resource="logback-common.xml"/>
+
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="com.equipment.platform" level="INFO"/>
+    <logger name="com.common" level="INFO"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="INFO_FILE"/>
+        <appender-ref ref="WARN_FILE"/>
+        <appender-ref ref="ERROR_FILE"/>
+    </root>
+
+</configuration>

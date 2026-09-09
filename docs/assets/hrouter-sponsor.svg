@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="160" viewBox="0 0 900 160" role="img" aria-labelledby="title desc">
+  <title id="title">HRouter · 项目赞助商</title>
+  <desc id="desc">AI 编程模型路由 · hrouter.net</desc>
+  <rect width="900" height="160" rx="20" fill="#101828"/>
+  <path d="M46 44v72M90 44v72M46 80h44" fill="none" stroke="#a6f4c5" stroke-width="13"/>
+  <text x="130" y="77" fill="#fff" font-family="system-ui,sans-serif" font-size="38" font-weight="700">HRouter</text>
+  <text x="132" y="115" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="20">AI 编程模型路由</text>
+  <text x="850" y="62" text-anchor="end" fill="#a6f4c5" font-family="system-ui,sans-serif" font-size="16">项目赞助商</text>
+  <text x="850" y="108" text-anchor="end" fill="#fff" font-family="system-ui,sans-serif" font-size="25">hrouter.net ↗</text>
+</svg>

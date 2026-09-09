@@ -1,0 +1,23 @@
+server:
+  port: 7781
+
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: false
+
+spring:
+  redis:
+    database: 0
+    host: ${ALIPAY_REDIS_HOST:127.0.0.1}
+    port: ${ALIPAY_REDIS_PORT:6379}
+    password: ${ALIPAY_REDIS_PASSWORD:}
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${ALIPAY_DB_URL:jdbc:mysql://127.0.0.1:3306/equipment_alipay?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai}
+    username: ${ALIPAY_DB_USERNAME:root}
+    password: ${ALIPAY_DB_PASSWORD:}
+
+zhongtai:
+  client:
+    base-url: ${ZHONGTAI_BASE_URL:http://127.0.0.1:7780}

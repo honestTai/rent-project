@@ -1,0 +1,860 @@
+body {
+  background: #f0f2f5;
+}
+
+#app {
+  color: #1f2937;
+}
+
+.t-layout,
+.t-layout__content,
+.t-content {
+  background: #f0f2f5;
+}
+
+.t-card {
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.metric-card,
+.panel,
+.home-panel,
+.analytics-card,
+.stat-card,
+.platform-card,
+.legacy-page,
+.order-container,
+.page-table__body,
+.query-panel {
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.t-card__header {
+  padding: 16px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.t-card__body {
+  padding: 16px 24px;
+}
+
+.t-button {
+  border-radius: 6px;
+  box-shadow: none !important;
+}
+
+.t-button--variant-base {
+  box-shadow: none !important;
+}
+
+.t-input,
+.t-textarea,
+.t-select__wrap,
+.t-input-number,
+.t-date-range-picker,
+.t-date-picker,
+.t-pagination__number,
+.t-pagination__btn {
+  border-radius: 6px;
+}
+
+.t-date-range-picker,
+.t-date-picker,
+.t-date-range-picker .t-range-input {
+  min-height: 42px;
+}
+
+.t-date-range-picker .t-range-input {
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  box-shadow: none !important;
+}
+
+.t-date-range-picker .t-range-input {
+  padding: 0 14px;
+}
+
+.t-date-range-picker .t-range-input__inner,
+.t-date-range-picker .t-range-input__inner-left,
+.t-date-range-picker .t-range-input__inner-right,
+.t-date-range-picker .t-range-input .t-input,
+.t-date-range-picker .t-range-input .t-input__wrap,
+.t-date-range-picker .t-range-input .t-input__inner,
+.t-date-range-picker .t-range-input input,
+.t-date-picker input {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.t-table {
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.t-table__content {
+  border-radius: 6px;
+}
+
+.t-table th,
+.t-table .t-table__th {
+  color: #475467;
+  font-weight: 600;
+  background: #fafafa !important;
+}
+
+.t-table th,
+.t-table td,
+.t-table--bordered th,
+.t-table--bordered td {
+  border-color: #f0f0f0 !important;
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
+}
+
+.t-table--bordered {
+  border-color: transparent !important;
+}
+
+.t-table__cell--fixed-left-last::before,
+.t-table__cell--fixed-right-first::before,
+.t-table__cell--fixed-left-last::after,
+.t-table__cell--fixed-right-first::after {
+  box-shadow: none !important;
+}
+
+.t-table__pagination {
+  padding: 16px 20px;
+  border-top: 1px solid #f0f0f0;
+  background: #fff;
+}
+
+.stable-page-loading {
+  display: block;
+  min-height: 360px;
+}
+
+.t-pagination {
+  gap: 8px;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.t-pagination__number,
+.t-pagination__btn,
+.t-pagination__select {
+  border-radius: 6px;
+}
+
+.t-pagination__number,
+.t-pagination__btn {
+  min-width: 36px;
+  height: 36px;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+}
+
+.t-pagination__total {
+  margin-right: auto;
+  color: #667085;
+}
+
+.t-pagination__number.t-is-current {
+  color: #fff;
+  border-color: var(--td-brand-color);
+  background: var(--td-brand-color);
+  box-shadow: none;
+}
+
+.legacy-table,
+.order-table {
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.t-form--inline {
+  row-gap: 12px;
+}
+
+.t-dialog .t-table,
+.t-popup .t-table {
+  border-radius: 6px;
+}
+
+.quick-grid button {
+  border-color: #e4e7ec;
+  border-radius: 6px;
+}
+
+.trend-text {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.trend-text--up {
+  color: var(--td-success-color);
+  background: var(--td-success-color-1);
+}
+
+.trend-text--down {
+  color: var(--td-error-color);
+  background: var(--td-error-color-1);
+}
+
+.trend-text--flat {
+  color: var(--td-text-color-secondary);
+  background: #f2f4f7;
+}
+
+.t-tag {
+  border-radius: 999px;
+}
+
+.t-radio-group.t-radio-group--filled {
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  box-shadow: none;
+}
+
+.t-radio-group.t-radio-group--filled .t-radio-group__bg-block {
+  background: #465fff;
+  box-shadow: none;
+}
+
+.t-radio-group.t-radio-group--filled .t-radio-button.t-is-checked {
+  color: #fff;
+  background: transparent;
+  box-shadow: none;
+}
+
+.t-menu__item,
+.t-menu__sub-menu {
+  border-radius: 4px;
+}
+
+.t-menu__item.t-is-active {
+  background: #eef4ff;
+}
+
+.t-popup.t-select__dropdown {
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.t-popup__content,
+.t-dropdown__menu {
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  box-shadow: none !important;
+}
+
+.t-select__dropdown .t-popup__content {
+  max-height: min(360px, calc(100vh - 160px));
+  overflow: hidden auto;
+  padding: 4px;
+  background: #fff;
+}
+
+.t-select__dropdown .t-select-option {
+  min-height: 34px;
+  padding: 0 10px;
+  border-radius: 4px;
+  line-height: 22px;
+}
+
+.t-select__dropdown .t-select-option + .t-select-option {
+  margin-top: 2px;
+}
+
+.t-dialog {
+  display: flex;
+  max-height: min(760px, calc(100vh - 96px));
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid #e4e7ec;
+  border-radius: 6px;
+  box-shadow: none !important;
+}
+
+.t-dialog__ctx .t-dialog__mask {
+  background: rgb(15 23 42 / 28%) !important;
+}
+
+.t-dialog__ctx .t-dialog__position.t-dialog--top {
+  padding-top: 48px !important;
+  padding-bottom: 48px !important;
+}
+
+.t-drawer__mask {
+  background-color: rgb(15 23 42 / 24%) !important;
+}
+
+.t-drawer__content-wrapper {
+  box-shadow: none !important;
+}
+
+.t-dialog__header {
+  flex: 0 0 auto;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.t-dialog__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+
+.t-dialog__footer {
+  flex: 0 0 auto;
+  border-top: 1px solid #f0f0f0;
+}
+
+.t-tabs__nav-item {
+  border-radius: 6px;
+}
+
+.t-button,
+.operation-button,
+.repair-operation-button,
+.rent-operation-button,
+.sale-operation-button,
+.action-button,
+.order-toolbar__button {
+  min-height: 34px;
+  border-radius: 6px !important;
+}
+
+.t-form {
+  --td-radius-default: 12px;
+}
+
+.t-form__label {
+  color: #344054;
+  font-weight: 500;
+}
+
+.t-form__controls-content {
+  min-height: 40px;
+}
+
+.query-panel,
+.handle-box,
+.order-toolbar,
+.filter-panel,
+.analysis-filter,
+.rental-query,
+.inventory-query,
+.source-query,
+.second-query,
+.query-card {
+  position: relative;
+  margin-bottom: 16px;
+  padding: 18px 24px !important;
+  border: 1px solid #f0f0f0 !important;
+  border-radius: 6px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
+.query-panel .t-form--inline,
+.filter-panel .t-form--inline,
+.analysis-filter .t-form--inline,
+.rental-query-form,
+.inventory-query-form,
+.source-query-form,
+.second-query-form,
+.query-form,
+.tab-filter {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: 16px 24px !important;
+  align-items: start !important;
+  width: 100%;
+  max-width: 100%;
+}
+
+.query-panel .t-form__item,
+.filter-panel .t-form__item,
+.analysis-filter .t-form__item,
+.rental-query-form .t-form__item,
+.inventory-query-form .t-form__item,
+.source-query-form .t-form__item,
+.second-query-form .t-form__item,
+.query-form .t-form__item,
+.tab-filter .t-form__item {
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+.query-panel .t-form__controls,
+.query-panel .t-form__controls-content,
+.filter-panel .t-form__controls,
+.filter-panel .t-form__controls-content,
+.analysis-filter .t-form__controls,
+.analysis-filter .t-form__controls-content,
+.rental-query-form .t-form__controls,
+.rental-query-form .t-form__controls-content,
+.inventory-query-form .t-form__controls,
+.inventory-query-form .t-form__controls-content,
+.source-query-form .t-form__controls,
+.source-query-form .t-form__controls-content,
+.second-query-form .t-form__controls,
+.second-query-form .t-form__controls-content,
+.query-form .t-form__controls,
+.query-form .t-form__controls-content,
+.tab-filter .t-form__controls,
+.tab-filter .t-form__controls-content {
+  width: 100%;
+  min-width: 0;
+}
+
+.platform-filter,
+.handle-input,
+.handle-select,
+.title-input,
+.status-select,
+.uuid-input,
+.name-input,
+.idcard-input,
+.order-input,
+.type-select,
+.result-select,
+.keyword-input,
+.rental-query-control,
+.inventory-query-control,
+.source-query-control,
+.second-query-control,
+.form-control,
+.mini-control {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.title-input,
+.order-input,
+.uuid-input,
+.name-input,
+.idcard-input {
+  width: 100% !important;
+}
+
+.status-select,
+.type-select,
+.result-select {
+  width: 100% !important;
+}
+
+.order-toolbar__main,
+.order-toolbar__sub,
+.platform-toolbar__filters,
+.platform-toolbar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.handle-box {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: 16px 24px;
+  align-items: start;
+  width: 100%;
+  max-width: 100%;
+}
+
+.handle-box .t-input,
+.handle-box .t-select,
+.handle-box .t-select__wrap,
+.handle-box .t-date-picker,
+.handle-box .t-date-range-picker,
+.handle-box .t-input-number {
+  width: 100%;
+}
+
+.handle-box .device-list-label,
+.handle-box label {
+  margin-right: 2px;
+  color: #344054;
+  font-weight: 500;
+  line-height: 34px;
+}
+
+.handle-box .t-button,
+.query-panel .t-button,
+.filter-panel .t-button,
+.analysis-filter .t-button,
+.rental-query .t-button,
+.inventory-query .t-button,
+.source-query .t-button,
+.second-query .t-button,
+.query-card .t-button,
+.order-toolbar .t-button {
+  justify-self: start;
+  width: auto !important;
+  min-width: 72px;
+  padding-right: 16px;
+  padding-left: 16px;
+}
+
+.query-panel .t-form__item:has(.t-button),
+.filter-panel .t-form__item:has(.t-button),
+.analysis-filter .t-form__item:has(.t-button),
+.rental-query-form .t-form__item:has(.t-button),
+.inventory-query-form .t-form__item:has(.t-button),
+.source-query-form .t-form__item:has(.t-button),
+.second-query-form .t-form__item:has(.t-button),
+.query-form .t-form__item:has(.t-button),
+.tab-filter .t-form__item:has(.t-button) {
+  grid-column: 1 / -1;
+  justify-self: stretch;
+  width: auto !important;
+}
+
+.query-panel .t-form__item:has(.t-button) .t-form__controls-content,
+.filter-panel .t-form__item:has(.t-button) .t-form__controls-content,
+.analysis-filter .t-form__item:has(.t-button) .t-form__controls-content,
+.rental-query-form .t-form__item:has(.t-button) .t-form__controls-content,
+.inventory-query-form .t-form__item:has(.t-button) .t-form__controls-content,
+.source-query-form .t-form__item:has(.t-button) .t-form__controls-content,
+.second-query-form .t-form__item:has(.t-button) .t-form__controls-content,
+.query-form .t-form__item:has(.t-button) .t-form__controls-content,
+.tab-filter .t-form__item:has(.t-button) .t-form__controls-content {
+  display: inline-flex;
+  width: auto;
+  gap: 8px;
+}
+
+.order-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.order-toolbar__main,
+.order-toolbar__sub {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.order-toolbar__button,
+.rental-query-button,
+.inventory-query-button,
+.source-query-button,
+.second-query-button,
+.filter-form__button {
+  justify-self: start;
+  width: auto !important;
+  min-width: 72px;
+}
+
+.rental-query__item--range,
+.source-query__item--range,
+.second-query__item--range,
+.filter-form__item--range,
+.filter-form__item--generate {
+  grid-column: span 2 !important;
+}
+
+.date-range {
+  width: 100% !important;
+}
+
+.bill-date {
+  width: 100% !important;
+}
+
+@media (max-width: 1400px) {
+  .query-panel .t-form--inline,
+  .filter-panel .t-form--inline,
+  .analysis-filter .t-form--inline,
+  .rental-query-form,
+  .inventory-query-form,
+  .source-query-form,
+  .second-query-form,
+  .query-form,
+  .tab-filter {
+    grid-template-columns: repeat(2, 312px) !important;
+  }
+
+  .rental-query__item--range,
+  .source-query__item--range,
+  .second-query__item--range,
+  .filter-form__item--range,
+  .filter-form__item--generate {
+    grid-column: span 2 !important;
+  }
+}
+
+.t-input,
+.t-textarea,
+.t-select,
+.t-select__wrap,
+.t-date-picker,
+.t-date-range-picker,
+.t-input-number,
+.t-input-number .t-input {
+  border-radius: 6px;
+}
+
+.t-input,
+.t-select__wrap,
+.t-date-picker,
+.t-date-range-picker,
+.t-input-number {
+  min-height: 40px;
+}
+
+.legacy-page-header,
+.page-description {
+  color: #344054;
+}
+
+.legacy-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.legacy-page-header h1,
+.legacy-page-header h2 {
+  margin: 0;
+  color: #101828;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.legacy-page-header p,
+.page-description,
+.dashboard-header p,
+.analytics-topbar p {
+  margin: 6px 0 0;
+  color: #344054;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.system-select-card {
+  border-radius: 6px;
+}
+
+.t-table td:last-child .t-link,
+.t-table td:last-child .t-button,
+.t-table td:last-child .t-button--variant-text,
+.t-table .t-table__cell--fixed-right .t-link,
+.t-table .t-table__cell--fixed-right .t-button,
+.t-table .t-table__cell--fixed-right .t-button--variant-text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 0 8px;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--td-brand-color) !important;
+  font-weight: 500;
+  line-height: 28px;
+  text-decoration: none;
+}
+
+.t-table td:last-child .t-link:hover,
+.t-table td:last-child .t-button:hover,
+.t-table td:last-child .t-button--variant-text:hover,
+.t-table .t-table__cell--fixed-right .t-link:hover,
+.t-table .t-table__cell--fixed-right .t-button:hover,
+.t-table .t-table__cell--fixed-right .t-button--variant-text:hover {
+  border-color: #d6e4ff !important;
+  background: #f2f7ff !important;
+}
+
+.t-table td:last-child .t-link + .t-link,
+.t-table td:last-child .t-button + .t-button,
+.t-table td:last-child .t-button--variant-text + .t-button--variant-text,
+.t-table .t-table__cell--fixed-right .t-link + .t-link,
+.t-table .t-table__cell--fixed-right .t-button + .t-button,
+.t-table .t-table__cell--fixed-right .t-button--variant-text + .t-button--variant-text {
+  margin-left: 6px;
+}
+
+.t-table td:last-child .t-link--theme-danger,
+.t-table td:last-child .t-button--theme-danger,
+.t-table td:last-child .t-button--theme-danger.t-button--variant-text,
+.t-table .t-table__cell--fixed-right .t-link--theme-danger,
+.t-table .t-table__cell--fixed-right .t-button--theme-danger,
+.t-table .t-table__cell--fixed-right .t-button--theme-danger.t-button--variant-text {
+  border-color: transparent !important;
+  background: transparent !important;
+  color: var(--td-error-color) !important;
+}
+
+.t-table td:last-child .t-link--theme-danger:hover,
+.t-table td:last-child .t-button--theme-danger:hover,
+.t-table td:last-child .t-button--theme-danger.t-button--variant-text:hover,
+.t-table .t-table__cell--fixed-right .t-link--theme-danger:hover,
+.t-table .t-table__cell--fixed-right .t-button--theme-danger:hover,
+.t-table .t-table__cell--fixed-right .t-button--theme-danger.t-button--variant-text:hover {
+  border-color: #fecdca !important;
+  background: #fef3f2 !important;
+}
+
+.t-table td:last-child .t-link--theme-warning,
+.t-table td:last-child .t-button--theme-warning,
+.t-table td:last-child .t-button--theme-warning.t-button--variant-text,
+.t-table .t-table__cell--fixed-right .t-link--theme-warning,
+.t-table .t-table__cell--fixed-right .t-button--theme-warning,
+.t-table .t-table__cell--fixed-right .t-button--theme-warning.t-button--variant-text {
+  border-color: transparent !important;
+  background: transparent !important;
+  color: var(--td-warning-color) !important;
+}
+
+.t-table td:last-child .t-link--theme-warning:hover,
+.t-table td:last-child .t-button--theme-warning:hover,
+.t-table td:last-child .t-button--theme-warning.t-button--variant-text:hover,
+.t-table .t-table__cell--fixed-right .t-link--theme-warning:hover,
+.t-table .t-table__cell--fixed-right .t-button--theme-warning:hover,
+.t-table .t-table__cell--fixed-right .t-button--theme-warning.t-button--variant-text:hover {
+  border-color: #fedf89 !important;
+  background: #fffaeb !important;
+}
+
+.t-table td:last-child .t-button--theme-success,
+.t-table .t-table__cell--fixed-right .t-button--theme-success {
+  color: var(--td-success-color) !important;
+}
+
+.t-table td:last-child .t-button--theme-success:hover,
+.t-table .t-table__cell--fixed-right .t-button--theme-success:hover {
+  border-color: #abefc6 !important;
+  background: #ecfdf3 !important;
+}
+
+.t-table td:last-child .t-button--variant-text::after,
+.t-table .t-table__cell--fixed-right .t-button--variant-text::after {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .query-panel .t-form--inline,
+  .filter-panel .t-form--inline,
+  .analysis-filter .t-form--inline,
+  .rental-query-form,
+  .inventory-query-form,
+  .source-query-form,
+  .second-query-form,
+  .query-form,
+  .tab-filter {
+    grid-template-columns: 1fr !important;
+    width: 100%;
+  }
+
+  .order-toolbar__main,
+  .order-toolbar__sub,
+  .platform-toolbar__filters,
+  .platform-toolbar__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .handle-box {
+    grid-template-columns: 1fr !important;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .order-toolbar__button,
+  .rental-query-button,
+  .inventory-query-button,
+  .source-query-button,
+  .second-query-button,
+  .filter-form__button,
+  .handle-box .t-button {
+    width: auto !important;
+  }
+
+  .platform-filter,
+  .handle-input,
+  .handle-select,
+  .title-input,
+  .status-select,
+  .uuid-input,
+  .name-input,
+  .idcard-input,
+  .order-input,
+  .type-select,
+  .result-select,
+  .keyword-input,
+  .rental-query-control,
+  .inventory-query-control,
+  .source-query-control,
+  .second-query-control,
+  .form-control,
+  .mini-control {
+    width: 100% !important;
+  }
+
+  .rental-query__item--range,
+  .source-query__item--range,
+  .second-query__item--range,
+  .filter-form__item--range,
+  .filter-form__item--generate {
+    grid-column: span 1 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .query-panel .t-form--inline,
+  .filter-panel .t-form--inline,
+  .analysis-filter .t-form--inline,
+  .rental-query-form,
+  .inventory-query-form,
+  .source-query-form,
+  .second-query-form,
+  .query-form,
+  .tab-filter {
+    grid-template-columns: 1fr !important;
+  }
+
+  .handle-box {
+    grid-template-columns: 1fr !important;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .rental-query__item--range,
+  .source-query__item--range,
+  .second-query__item--range,
+  .filter-form__item--range,
+  .filter-form__item--generate {
+    grid-column: span 1 !important;
+  }
+}

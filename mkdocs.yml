@@ -1,0 +1,55 @@
+site_name: Rent Project · 租赁业务管理系统
+site_description: 开源租赁运营后台与配置中台的安装、初始化和操作文档
+site_url: https://honesttai.github.io/rent-project/
+repo_url: https://github.com/honestTai/rent-project
+repo_name: honestTai/rent-project
+copyright: Copyright © 2026 honestTai · AGPL-3.0-only
+docs_dir: docs
+site_dir: site
+use_directory_urls: true
+hooks:
+  - tools/docs_hooks.py
+theme:
+  name: material
+  language: zh
+  font: false
+  palette:
+    primary: teal
+    accent: green
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+plugins:
+  - search:
+      lang: [zh, en]
+markdown_extensions:
+  - tables
+  - fenced_code
+  - admonition
+  - toc:
+      permalink: true
+nav:
+  - 文档首页: index.md
+  - 快速开始: QUICKSTART.md
+  - 初始化数据: INITIALIZATION.md
+  - 操作手册:
+      - 阅读入口: USER_GUIDE.md
+      - 中台与权限: manual/PLATFORM.md
+      - 商品与目录: manual/CATALOG.md
+      - 订单与售后: manual/ORDERS.md
+      - 看板与报表: manual/ANALYTICS.md
+      - 用户、台账与AI: manual/OPERATIONS.md
+      - 支付宝、e签宝与代扣: manual/INTEGRATIONS.md
+      - 页面截图索引: manual/PAGE_INVENTORY.md
+  - 系统架构: ARCHITECTURE.md
+  - 部署维护: DEPLOYMENT.md
+  - 官方资料: REFERENCES.md
+  - 开源与赞助: OPEN_SOURCE.md
+exclude_docs: |
+  generated/
+  _build_customer_docs.py
+  产品功能说明.md
+  *.docx
+  *.xlsx
+  ~$*

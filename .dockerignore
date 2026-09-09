@@ -1,0 +1,11 @@
+.git
+.idea
+.codex-logs
+.superpowers
+logs
+test-results
+**/target
+**/node_modules
+equipment_management_system_fornt
+*.log
+*.png

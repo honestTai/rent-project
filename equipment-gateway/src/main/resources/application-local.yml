@@ -1,0 +1,38 @@
+server:
+  port: 7777
+
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: false
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${PLATFORM_DB_URL:jdbc:mysql://127.0.0.1:3306/equipment_platform?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai}
+    username: ${PLATFORM_DB_USERNAME:root}
+    password: ${PLATFORM_DB_PASSWORD:}
+  redis:
+    database: 0
+    host: ${GATEWAY_REDIS_HOST:127.0.0.1}
+    port: ${GATEWAY_REDIS_PORT:6379}
+    password: ${GATEWAY_REDIS_PASSWORD:}
+  cloud:
+    gateway:
+      routes:
+        - id: alipay-notify
+          uri: http://127.0.0.1:7781
+          predicates:
+            - Path=/notify/**
+        - id: alipay-service
+          uri: http://127.0.0.1:7781
+          predicates:
+            - Path=/api/web/**,/api/rent/v1/**
+        - id: agent-service
+          uri: http://${AGENT_SERVICE_HOST:127.0.0.1}:${AGENT_SERVICE_PORT:7790}
+          predicates:
+            - Path=/api/agent/**
+        - id: platform-service
+          uri: http://127.0.0.1:7780
+          predicates:
+            - Path=/api/platform/**,/api/user/**

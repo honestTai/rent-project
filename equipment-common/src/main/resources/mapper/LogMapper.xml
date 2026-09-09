@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.log.mapper.LogMapper">
+    <insert id="addLogInfo" parameterType="com.common.log.entity.Log">
+        insert into `log`(dateTime,content,userId,`type`,userIp,requestMethod,`result`,logMsg,userAddress,userBrowser,userSystem,requestUrl,param,old_data,new_data,froms,resultData) values
+        (#{dateTime,jdbcType=TIMESTAMP},#{content,jdbcType=VARCHAR},#{userId,jdbcType=INTEGER},#{type,jdbcType=INTEGER},#{userIp,jdbcType=VARCHAR},#{requestMethod,jdbcType=VARCHAR},#{result,jdbcType=VARCHAR},#{logMsg,jdbcType=VARCHAR},
+        #{userAddress,jdbcType=VARCHAR},#{userBrowser,jdbcType=VARCHAR},#{userSystem,jdbcType=VARCHAR},#{requestUrl,jdbcType=VARCHAR},#{param,jdbcType=VARCHAR},#{oldData,jdbcType=VARCHAR},#{newData,jdbcType=VARCHAR},#{froms,jdbcType=VARCHAR},#{resultData,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="userAccessCount" resultType="java.lang.Integer">
+        select count(*) from `log` where log.type=1 or log.type=0
+    </select>
+
+    <select id="getRequestLogList" resultType="com.common.log.vo.LogListVo" parameterType="com.common.login.BaseLog">
+        select t1.id,t1.dateTime,t1.content,t1.userId,t1.type,t1.userIp,t1.requestMethod,t1.result,t1.logMsg,t1.userAddress,t1.userBrowser,t1.userSystem,t1.requestUrl,t1.param,t1.old_data as oldData,t1.new_data as newData,t1.froms,t1.resultData, IFNULL(t2.userName,'未知用户') as userName
+        from log t1
+        left join user t2 on t1.userId = t2.id
+        where (t1.type = 0 or t1.type = 1)
+        <if test="type != null">
+            and t1.type=#{type,jdbcType=INTEGER}
+        </if>
+        <if test="logMsg != null and logMsg != ''">
+            and t1.logMsg like CONCAT('%',#{logMsg,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="userId != null">
+            and t1.userId=#{userId,jdbcType=INTEGER}
+        </if>
+        <if test="userName != null and userName != ''">
+            and t2.userName=#{userName,jdbcType=VARCHAR}
+        </if>
+        <if test="dateList != null and dateList.size() != 0">
+            and t1.dateTime between #{startTime} and #{endTime}
+        </if>
+        <if test="result != null and result != ''">
+            and t1.result=#{result,jdbcType=VARCHAR}
+        </if>
+        <if test="froms != null and froms != ''">
+            and t1.froms=#{froms,jdbcType=VARCHAR}
+        </if>
+        order by t1.dateTime desc
+    </select>
+
+    <select id="getOperationLogList" resultType="com.common.log.vo.LogListVo" parameterType="com.common.login.BaseLog">
+        select t1.id,t1.dateTime,t1.content,t1.userId,t1.type,t1.userIp,t1.requestMethod,t1.result,t1.logMsg,t1.userAddress,t1.userBrowser,t1.userSystem,t1.requestUrl,t1.param,t1.old_data as oldData,t1.new_data as newData,t1.froms,t1.resultData, IFNULL(t2.userName,'未知用户') as userName
+        from log t1
+        left join user t2 on t1.userId = t2.id
+        where (t1.type &lt;&gt; 0 and t1.type &lt;&gt; 1)
+        <if test="type != null">
+            and t1.type=#{type,jdbcType=INTEGER}
+        </if>
+        <if test="logMsg != null and logMsg != ''">
+            and t1.content like CONCAT('%',#{logMsg,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="userId != null">
+            and t1.userId=#{userId,jdbcType=INTEGER}
+        </if>
+        <if test="userName != null and userName != ''">
+            and t2.userName=#{userName,jdbcType=VARCHAR}
+        </if>
+        <if test="dateList != null and dateList.size() != 0">
+            and t1.dateTime between #{startTime} and #{endTime}
+        </if>
+        <if test="result != null and result != ''">
+            and t1.result=#{result,jdbcType=VARCHAR}
+        </if>
+        <if test="froms != null and froms != ''">
+            and t1.froms=#{froms,jdbcType=VARCHAR}
+        </if>
+        order by t1.dateTime desc
+    </select>
+
+    <delete id="deleteLog" parameterType="com.common.login.BaseLog">
+        delete from log
+        where id IN
+        <foreach collection="logIdList" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteAllLog">
+        truncate table log
+    </delete>
+</mapper>
