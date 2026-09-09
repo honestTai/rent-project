@@ -101,13 +101,22 @@ def class_strings(data: bytes) -> bytes:
     return b'\n'.join(values)
 
 
-def jar_findings(name: str, data: bytes) -> list[dict]:
+def jar_findings(name: str, data: bytes, *, application_library: bool = False) -> list[dict]:
+    """Inspect Spring Boot application files, or an explicitly selected own library.
+
+    The only nested dependency selected automatically is equipment-common. Other
+    BOOT-INF/lib dependencies may contain vendor test keys and stay out of scope.
+    """
     findings = []
     with zipfile.ZipFile(io.BytesIO(data)) as archive:
         for entry in archive.infolist():
-            if entry.is_dir() or not entry.filename.startswith('BOOT-INF/classes/'):
+            if entry.is_dir():
                 continue
             label = name + '!/' + entry.filename
+            own_nested = (not application_library and
+                          re.fullmatch(r'BOOT-INF/lib/equipment-common-[^/]+\.jar', entry.filename) is not None)
+            if not application_library and not own_nested and not entry.filename.startswith('BOOT-INF/classes/'):
+                continue
             if not safe_name(entry.filename) or forbidden_name(entry.filename):
                 findings.append({'path': label, 'type': 'private-or-unsafe-application-resource'})
                 continue
@@ -115,6 +124,9 @@ def jar_findings(name: str, data: bytes) -> list[dict]:
                 findings.append({'path': label, 'type': 'oversized-application-resource'})
                 continue
             content = archive.read(entry)
+            if own_nested:
+                findings.extend(jar_findings(label, content, application_library=True))
+                continue
             if entry.filename.endswith('.class'):
                 content = class_strings(content)
             elif b'\0' in content[:8192]:

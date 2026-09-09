@@ -40,6 +40,7 @@
 Thumbs.db
 /site/
 /dist-release/
+/dist-audit/
 
 # Runtime data and secrets are never source
 customer-deploy/jars/*

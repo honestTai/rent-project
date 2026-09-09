@@ -85,6 +85,24 @@ class ReleasePublicationTest(unittest.TestCase):
         jar = self.jar({'BOOT-INF/classes/com/example/App.class': class_file})
         self.assertIn('github-credential', self.kinds(self.package({'jars/app.jar': jar})))
 
+    def test_nested_own_common_library_is_checked(self):
+        marker = ('gh' + 'p_' + 'C' * 36).encode()
+        class_file = b'\xca\xfe\xba\xbe\x00\x00\x00\x34' + struct.pack('>H', 2) + b'\x01' + struct.pack('>H', len(marker)) + marker
+        common = self.jar({'com/common/Config.class': class_file,
+                           'defaults.yml': b'password: fixed-deployment-value\n'})
+        jar = self.jar({'BOOT-INF/lib/equipment-common-1.0.0.jar': common})
+        findings = self.package({'jars/app.jar': jar})
+        self.assertTrue({'github-credential', 'literal-credential-in-configuration'} <= self.kinds(findings))
+        self.assertTrue(all('!/BOOT-INF/lib/equipment-common-1.0.0.jar!/' in item['path'] for item in findings))
+        similarly_named_vendor = self.jar({'BOOT-INF/lib/vendor-equipment-common-1.0.0.jar': common})
+        self.assertEqual([], self.package({'jars/app.jar': similarly_named_vendor}))
+
+    def test_plain_own_library_requires_explicit_selection(self):
+        library = self.jar({'defaults.yml': b'password: fixed-deployment-value\n'})
+        self.assertEqual([], check_release.jar_findings('library.jar', library))
+        findings = check_release.jar_findings('equipment-common-1.0.0.jar', library, application_library=True)
+        self.assertIn('literal-credential-in-configuration', self.kinds(findings))
+
     def test_command_output_never_contains_detected_value(self):
         marker = ('gh' + 'p_' + 'B' * 36).encode()
         self.package({'config.txt': marker})

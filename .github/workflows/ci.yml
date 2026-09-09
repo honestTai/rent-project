@@ -56,6 +56,8 @@ jobs:
       - run: python customer-deploy/scripts/check_initialization.py
       - run: python customer-deploy/scripts/test_deploy.py
       - run: python tools/test_check_release.py
+      - run: python tools/test_publish_release.py
+      - run: python tools/test_audit_release.py
       - name: Initialize isolated databases
         run: python customer-deploy/scripts/initialize.py --host 127.0.0.1 --user root --platform-db ci_platform --alipay-db ci_alipay --demo --execute --confirm-new-databases ci_platform,ci_alipay
       - name: Repeat initialization without changing data
