@@ -39,6 +39,7 @@
 .DS_Store
 Thumbs.db
 /site/
+/dist-release/
 
 # Runtime data and secrets are never source
 customer-deploy/jars/*

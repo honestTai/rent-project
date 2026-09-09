@@ -1,0 +1,56 @@
+name: Build and test Docker installation package
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (for example v0.1.0); creates an artifact, not a public release'
+        required: true
+        default: v0.1.0
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: equipment_management_system_fornt/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate release input
+        env:
+          VERSION: ${{ inputs.version }}
+        run: python -c 'import os,re; assert re.fullmatch(r"v\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?", os.environ["VERSION"])'
+      - name: Build clean committed source and pin official base images
+        env:
+          VERSION: ${{ inputs.version }}
+        run: python tools/build_release.py --version "$VERSION" --output dist-release
+      - name: Validate archive handling and deployment recovery
+        run: |
+          python customer-deploy/scripts/test_deploy.py
+          python tools/test_check_release.py
+      - name: Scan packaged configuration, frontend files and application JARs
+        env:
+          VERSION: ${{ inputs.version }}
+        run: python tools/check_release.py "dist-release/rent-project-$VERSION-docker.tar.gz"
+      - name: Real Docker install, upgrade, data preservation and failure rollback
+        env:
+          VERSION: ${{ inputs.version }}
+        run: python tools/test_docker_release.py "dist-release/rent-project-$VERSION-docker.tar.gz"
+      - name: Retain verified package for publication review
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-install-package
+          path: dist-release/*
+          if-no-files-found: error
+          retention-days: 14

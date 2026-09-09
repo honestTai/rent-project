@@ -1,131 +1,169 @@
+# Run through scripts/deploy.py; release archives pin base images by digest.
+x-db-env: &db-env
+  DB_MODE: ${DB_MODE:-managed}
+  RDS_HOST: ${RDS_HOST:-mysql}
+  RDS_PORT: ${RDS_PORT:-3306}
+  RDS_USERNAME: ${RDS_USERNAME:-rent_app}
+  RDS_PASSWORD: ${RDS_PASSWORD:?set RDS_PASSWORD}
+  RDS_PLATFORM_DATABASE: ${RDS_PLATFORM_DATABASE:-equipment_platform}
+  RDS_ALIPAY_DATABASE: ${RDS_ALIPAY_DATABASE:-equipment_alipay}
+  DB_SSL_MODE: ${DB_SSL_MODE:-DISABLED}
+  DB_SSL_CA: ${DB_SSL_CA:-}
+x-java-env: &java-env
+  TZ: Asia/Shanghai
+  RENTAL_PRODUCT_AES_SECRET: ${RENTAL_PRODUCT_AES_SECRET:?set RENTAL_PRODUCT_AES_SECRET}
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://equipment-eureka:8761/eureka/
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info,metrics
+  MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: never
+x-platform-env: &platform-env
+  PLATFORM_DB_URL: jdbc:mysql://${RDS_HOST:-mysql}:${RDS_PORT:-3306}/${RDS_PLATFORM_DATABASE:-equipment_platform}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&sslMode=${DB_SSL_MODE:-DISABLED}&allowPublicKeyRetrieval=true${DB_JDBC_OPTIONS:-}
+  PLATFORM_DB_USERNAME: ${RDS_USERNAME:-rent_app}
+  PLATFORM_DB_PASSWORD: ${RDS_PASSWORD}
+x-java: &java
+  image: eclipse-temurin:17-jre-jammy
+  restart: unless-stopped
+  working_dir: /app
+  command: ["sh", "-c", "exec java $$JAVA_OPTS -jar /app/app.jar"]
+  stop_grace_period: 45s
+  logging: &logging
+    driver: json-file
+    options: {max-size: "10m", max-file: "3"}
+x-health: &health
+  interval: 10s
+  timeout: 6s
+  retries: 18
+  start_period: 30s
+x-bootstrap: &bootstrap
+  image: rent-project-tools:${RELEASE_VERSION:?set RELEASE_VERSION}
+  build:
+    context: ${RELEASE_DIR:?set RELEASE_DIR}
+    dockerfile: Dockerfile.tools
+  profiles: [tools]
+  environment:
+    <<: *db-env
+    RENTAL_PRODUCT_AES_SECRET: ${RENTAL_PRODUCT_AES_SECRET}
+    ADMIN_USER: ${ADMIN_USER:-admin}
+    BOOTSTRAP_DEMO: ${BOOTSTRAP_DEMO:-0}
+  volumes:
+    - ${SHARED_DIR:?set SHARED_DIR}/tls:/run/db-ca
+
 services:
+  mysql:
+    image: mysql:8.0.46
+    profiles: [managed]
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-unused-for-external-database}
+      MYSQL_USER: ${RDS_USERNAME:-rent_app}
+      MYSQL_PASSWORD: ${RDS_PASSWORD}
+    volumes:
+      - ${SHARED_DIR}/mysql:/var/lib/mysql
+    healthcheck:
+      test: ['CMD-SHELL', 'MYSQL_PWD="$$MYSQL_ROOT_PASSWORD" mysql -h 127.0.0.1 -u root -Nse "SELECT 1" >/dev/null']
+      interval: 5s
+      timeout: 5s
+      retries: 36
+      start_period: 30s
+    mem_limit: 768m
+    logging: *logging
   redis:
     image: redis:7.2-alpine
-    container_name: equipment-redis
     restart: unless-stopped
-    command: ["sh", "-c", "redis-server --appendonly yes --requirepass \"$${REDIS_PASSWORD}\""]
     environment:
-      TZ: Asia/Shanghai
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?set REDIS_PASSWORD}
+    command: ['sh', '-c', 'exec redis-server --appendonly yes --requirepass "$$REDIS_PASSWORD"']
     volumes:
-      - ./data/redis:/data
+      - ${SHARED_DIR}/redis:/data
     healthcheck:
-      test: ["CMD-SHELL", "redis-cli -a \"$${REDIS_PASSWORD}\" ping | grep PONG"]
-      interval: 10s
-      timeout: 5s
+      test: ['CMD-SHELL', 'REDISCLI_AUTH="$$REDIS_PASSWORD" redis-cli ping | grep -q PONG']
+      interval: 5s
+      timeout: 3s
       retries: 20
     mem_limit: 160m
-    networks:
-      - equipment-net
+    logging: *logging
 
   equipment-eureka:
-    image: eclipse-temurin:8-jre
-    container_name: equipment-eureka
-    restart: unless-stopped
-    working_dir: /app
+    <<: *java
     environment:
-      TZ: Asia/Shanghai
-      RENTAL_PRODUCT_AES_SECRET: ${RENTAL_PRODUCT_AES_SECRET:?set RENTAL_PRODUCT_AES_SECRET}
+      <<: *java-env
       SPRING_PROFILES_ACTIVE: prod,docker
-      JAVA_OPTS: ${JAVA_OPTS_EUREKA}
+      JAVA_OPTS: ${JAVA_OPTS_EUREKA:--Xms96m -Xmx192m -XX:MaxMetaspaceSize=128m -XX:+ExitOnOutOfMemoryError}
       LOGGING_FILE_PATH: /app/service-logs/equipment-eureka
-    command: ["sh", "-c", "java $$JAVA_OPTS -jar /app/app.jar"]
     volumes:
-      - ./jars/equipment-eureka.jar:/app/app.jar:ro
-      - ./logs:/app/service-logs
-    mem_limit: 320m
-    networks:
-      - equipment-net
+      - ${RELEASE_DIR}/jars/equipment-eureka.jar:/app/app.jar:ro
+      - ${RELEASE_DIR}/health:/app/health:ro
+      - ${SHARED_DIR}/logs:/app/service-logs
+      - ${SHARED_DIR}/tls:/run/db-ca:ro
+    healthcheck:
+      <<: *health
+      test: ['CMD', 'java', '-Xmx32m', '-cp', '/app/health', 'HttpHealth', 'http://127.0.0.1:8761/actuator/health']
+    mem_limit: 448m
 
   equipment-platform:
-    image: eclipse-temurin:8-jre
-    container_name: equipment-platform
-    restart: unless-stopped
-    working_dir: /app
+    <<: *java
     depends_on:
-      redis:
-        condition: service_healthy
-      equipment-eureka:
-        condition: service_started
+      redis: {condition: service_healthy}
+      equipment-eureka: {condition: service_healthy}
     environment:
-      TZ: Asia/Shanghai
-      RENTAL_PRODUCT_AES_SECRET: ${RENTAL_PRODUCT_AES_SECRET:?set RENTAL_PRODUCT_AES_SECRET}
+      <<: [*java-env, *platform-env]
       SPRING_PROFILES_ACTIVE: prod,docker
-      JAVA_OPTS: ${JAVA_OPTS_PLATFORM}
-      PLATFORM_DB_URL: jdbc:mysql://${RDS_HOST}:${RDS_PORT:-3306}/${RDS_PLATFORM_DATABASE:-equipment_platform}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
-      PLATFORM_DB_USERNAME: ${RDS_USERNAME}
-      PLATFORM_DB_PASSWORD: ${RDS_PASSWORD}
+      JAVA_OPTS: ${JAVA_OPTS_PLATFORM:--Xms160m -Xmx384m -XX:MaxMetaspaceSize=160m -XX:+ExitOnOutOfMemoryError}
+      LOGGING_FILE_PATH: /app/service-logs/equipment-platform
       PLATFORM_REDIS_HOST: redis
       PLATFORM_REDIS_PORT: 6379
       PLATFORM_REDIS_PASSWORD: ${REDIS_PASSWORD}
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://equipment-eureka:8761/eureka/
-      LOGGING_FILE_PATH: /app/service-logs/equipment-platform
       SYSTEM_LOG_ROOT_PATH: /app/service-logs
-    command: ["sh", "-c", "java $$JAVA_OPTS -jar /app/app.jar"]
     volumes:
-      - ./jars/equipment-platform.jar:/app/app.jar:ro
-      - ./logs:/app/service-logs
-    mem_limit: 640m
-    networks:
-      - equipment-net
+      - ${RELEASE_DIR}/jars/equipment-platform.jar:/app/app.jar:ro
+      - ${RELEASE_DIR}/health:/app/health:ro
+      - ${SHARED_DIR}/logs:/app/service-logs
+      - ${SHARED_DIR}/tls:/run/db-ca:ro
+    healthcheck:
+      <<: *health
+      test: ['CMD', 'java', '-Xmx32m', '-cp', '/app/health', 'HttpHealth', 'http://127.0.0.1:9804/actuator/health']
+    mem_limit: 768m
 
   equipment-alipay:
-    image: eclipse-temurin:8-jre
-    container_name: equipment-alipay
-    restart: unless-stopped
-    working_dir: /app
+    <<: *java
     depends_on:
-      redis:
-        condition: service_healthy
-      equipment-eureka:
-        condition: service_started
-      equipment-platform:
-        condition: service_started
+      redis: {condition: service_healthy}
+      equipment-eureka: {condition: service_healthy}
+      equipment-platform: {condition: service_healthy}
     environment:
-      TZ: Asia/Shanghai
-      RENTAL_PRODUCT_AES_SECRET: ${RENTAL_PRODUCT_AES_SECRET:?set RENTAL_PRODUCT_AES_SECRET}
+      <<: *java-env
       SPRING_PROFILES_ACTIVE: prod
-      JAVA_OPTS: ${JAVA_OPTS_ALIPAY}
-      ALIPAY_DB_URL: jdbc:mysql://${RDS_HOST}:${RDS_PORT:-3306}/${RDS_ALIPAY_DATABASE:-equipment_alipay}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
-      ALIPAY_DB_USERNAME: ${RDS_USERNAME}
-      ALIPAY_DB_PASSWORD: ${RDS_PASSWORD}
+      JAVA_OPTS: ${JAVA_OPTS_ALIPAY:--Xms192m -Xmx512m -XX:MaxMetaspaceSize=192m -XX:+ExitOnOutOfMemoryError}
+      LOGGING_FILE_PATH: /app/service-logs/equipment-alipay
       ALIPAY_REDIS_HOST: redis
       ALIPAY_REDIS_PORT: 6379
       ALIPAY_REDIS_PASSWORD: ${REDIS_PASSWORD}
+      ALIPAY_DB_URL: jdbc:mysql://${RDS_HOST:-mysql}:${RDS_PORT:-3306}/${RDS_ALIPAY_DATABASE:-equipment_alipay}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&sslMode=${DB_SSL_MODE:-DISABLED}&allowPublicKeyRetrieval=true${DB_JDBC_OPTIONS:-}
+      ALIPAY_DB_USERNAME: ${RDS_USERNAME:-rent_app}
+      ALIPAY_DB_PASSWORD: ${RDS_PASSWORD}
       ZHONGTAI_BASE_URL: http://equipment-platform:9804
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://equipment-eureka:8761/eureka/
-      LOGGING_FILE_PATH: /app/service-logs/equipment-alipay
-    command: ["sh", "-c", "java $$JAVA_OPTS -jar /app/app.jar"]
     volumes:
-      - ./jars/equipment-alipay.jar:/app/app.jar:ro
-      - ./uploads:/app/uploads
-      - ./logs:/app/service-logs
-    mem_limit: 800m
-    networks:
-      - equipment-net
+      - ${RELEASE_DIR}/jars/equipment-alipay.jar:/app/app.jar:ro
+      - ${RELEASE_DIR}/health:/app/health:ro
+      - ${SHARED_DIR}/logs:/app/service-logs
+      - ${SHARED_DIR}/tls:/run/db-ca:ro
+      - ${SHARED_DIR}/uploads:/app/uploads
+    healthcheck:
+      <<: *health
+      test: ['CMD', 'java', '-Xmx32m', '-cp', '/app/health', 'HttpHealth', 'http://127.0.0.1:9803/actuator/health']
+    mem_limit: 1024m
 
   equipment-gateway:
-    image: eclipse-temurin:8-jre
-    container_name: equipment-gateway
-    restart: unless-stopped
-    working_dir: /app
+    <<: *java
     depends_on:
-      redis:
-        condition: service_healthy
-      equipment-eureka:
-        condition: service_started
-      equipment-platform:
-        condition: service_started
-      equipment-alipay:
-        condition: service_started
+      redis: {condition: service_healthy}
+      equipment-eureka: {condition: service_healthy}
+      equipment-platform: {condition: service_healthy}
+      equipment-alipay: {condition: service_healthy}
     environment:
-      TZ: Asia/Shanghai
-      RENTAL_PRODUCT_AES_SECRET: ${RENTAL_PRODUCT_AES_SECRET:?set RENTAL_PRODUCT_AES_SECRET}
+      <<: [*java-env, *platform-env]
       SPRING_PROFILES_ACTIVE: prod,docker
-      JAVA_OPTS: ${JAVA_OPTS_GATEWAY}
-      PLATFORM_DB_URL: jdbc:mysql://${RDS_HOST}:${RDS_PORT:-3306}/${RDS_PLATFORM_DATABASE:-equipment_platform}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
-      PLATFORM_DB_USERNAME: ${RDS_USERNAME}
-      PLATFORM_DB_PASSWORD: ${RDS_PASSWORD}
+      JAVA_OPTS: ${JAVA_OPTS_GATEWAY:--Xms160m -Xmx384m -XX:MaxMetaspaceSize=160m -XX:+ExitOnOutOfMemoryError}
+      LOGGING_FILE_PATH: /app/service-logs/equipment-gateway
       GATEWAY_REDIS_HOST: redis
       GATEWAY_REDIS_PORT: 6379
       GATEWAY_REDIS_PASSWORD: ${REDIS_PASSWORD}
@@ -135,33 +173,50 @@ services:
       ALIPAY_SERVICE_PORT: 9803
       PLATFORM_SERVICE_HOST: equipment-platform
       PLATFORM_SERVICE_PORT: 9804
-      LOGGING_FILE_PATH: /app/service-logs/equipment-gateway
-    command: ["sh", "-c", "java $$JAVA_OPTS -jar /app/app.jar"]
     volumes:
-      - ./jars/equipment-gateway.jar:/app/app.jar:ro
-      - ./logs:/app/service-logs
-    mem_limit: 640m
-    networks:
-      - equipment-net
+      - ${RELEASE_DIR}/jars/equipment-gateway.jar:/app/app.jar:ro
+      - ${RELEASE_DIR}/health:/app/health:ro
+      - ${SHARED_DIR}/logs:/app/service-logs
+      - ${SHARED_DIR}/tls:/run/db-ca:ro
+    healthcheck:
+      <<: *health
+      test: ['CMD', 'java', '-Xmx32m', '-cp', '/app/health', 'HttpHealth', 'http://127.0.0.1:9800/actuator/health']
+    mem_limit: 768m
 
   nginx:
-    image: nginx:1.25-alpine
-    container_name: equipment-nginx
+    image: nginx:stable-alpine
     restart: unless-stopped
     depends_on:
-      equipment-gateway:
-        condition: service_started
-    mem_limit: 128m
+      equipment-gateway: {condition: service_healthy}
     ports:
       - "${HTTP_BIND:-127.0.0.1}:${HTTP_PORT:-8080}:80"
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./www/platform:/usr/share/nginx/html/platform:ro
-      - ./www/rent:/usr/share/nginx/html/rent:ro
-      - ./uploads:/usr/share/nginx/html/uploads:ro
-      - ./logs/nginx:/var/log/nginx
-    networks:
-      - equipment-net
-
-networks:
-  equipment-net:
+      - ${RELEASE_DIR}/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ${RELEASE_DIR}/www/platform:/usr/share/nginx/html/platform:ro
+      - ${RELEASE_DIR}/www/rent:/usr/share/nginx/html/rent:ro
+      - ${SHARED_DIR}/uploads:/usr/share/nginx/html/uploads:ro
+      - ${SHARED_DIR}/logs/nginx:/var/log/nginx
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://127.0.0.1/healthz']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    mem_limit: 128m
+    logging: *logging
+  bootstrap-managed:
+    <<: *bootstrap
+    network_mode: service:mysql
+    depends_on:
+      mysql: {condition: service_healthy}
+  bootstrap-external:
+    <<: *bootstrap
+  db-backup:
+    image: mysql:8.0.46
+    profiles: [tools]
+    environment:
+      <<: *db-env
+      MYSQL_PWD: ${RDS_PASSWORD}
+    entrypoint: ['sh', '/opt/db-backup.sh']
+    volumes:
+      - ${RELEASE_DIR}/scripts/db-backup.sh:/opt/db-backup.sh:ro
+      - ${SHARED_DIR}/tls:/run/db-ca:ro

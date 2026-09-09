@@ -44,6 +44,7 @@ nav:
       - 页面截图索引: manual/PAGE_INVENTORY.md
   - 系统架构: ARCHITECTURE.md
   - 部署维护: DEPLOYMENT.md
+  - 信息泄露复查: SECURITY_REVIEW.md
   - 官方资料: REFERENCES.md
   - 开源与赞助: OPEN_SOURCE.md
 exclude_docs: |

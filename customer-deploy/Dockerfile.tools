@@ -1,0 +1,7 @@
+FROM python:3.11-slim
+WORKDIR /opt/rent-project
+COPY scripts/requirements-init.txt /tmp/requirements-init.txt
+RUN pip install --no-cache-dir -r /tmp/requirements-init.txt
+COPY scripts/initialize.py scripts/bootstrap.py ./scripts/
+COPY sql/ ./sql/
+ENTRYPOINT ["python", "scripts/bootstrap.py"]

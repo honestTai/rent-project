@@ -1,52 +1,62 @@
-# 独立部署包
+# Docker 发行包
 
-本目录包含注册中心、中台、租赁业务、网关、两个管理前端及 Redis 的部署配置。数据库使用独立 MySQL 8；入口端口及网络以 Compose 配置为准。
+本目录是独立发行包的部署模板。普通部署者从 [GitHub Releases](https://github.com/honestTai/rent-project/releases) 下载编译好的 `.tar.gz` 和同版 `SHA256SUMS`；无需在服务器安装 Java、Maven 或 Node.js。完整流程见[安装、升级与回滚手册](https://honesttai.github.io/rent-project/DEPLOYMENT/)。
 
-## 文件
+要求：Linux、Python 3.10+、Docker Engine、Docker Compose 插件 2.20+。首次需要联网拉取官方 Docker 镜像并构建 Python 工具镜像，本包不是离线镜像包。Docker 安装按[官方文档](https://docs.docker.com/engine/install/)进行，部署脚本不会代为安装系统服务。
 
-- `scripts/initialize.py`：仅初始化两个新库；没有覆盖或清库选项。
-- `sql/init.sql`：37 张业务表结构，由程序按数据库分段执行。
-- `sql/seed-platform.sql`：权限、空配置及停用的 7 项内置任务。
-- `sql/seed-alipay.sql`：通用分类和空业务配置。
-- `sql/demo.sql`：可选的虚构商品、受限用户、订单、分期账单、合同和零金额售后。
-- `jars/`：四个服务 JAR；`www/platform/`、`www/rent/`：前端构建结果。
-- `uploads/`、`logs/`、`data/redis/`：运行数据，不能提交到公开仓库。
+## 下载、校验与安装
 
-## 初始化
-
-完整说明见 [初始化手册](../docs/INITIALIZATION.md)。从本目录运行：
+以下 `VERSION` 使用 Release 附件中的真实版本，`DIGEST` 使用 `SHA256SUMS` 中该压缩包对应的 64 位 SHA-256。每个版本解压到新的空目录，已有 `release-tools` 时换一个目录名：
 
 ```bash
-python3 -m venv .venv-init
-. .venv-init/bin/activate
-python -m pip install -r scripts/requirements-init.txt
-python scripts/initialize.py --host 127.0.0.1 --user db_bootstrap \
-  --platform-db equipment_platform --alipay-db equipment_alipay
+sha256sum -c SHA256SUMS
+mkdir release-tools
+tar -xzf rent-project-VERSION-docker.tar.gz -C release-tools
+sh release-tools/install.sh ./rent-project-VERSION-docker.tar.gz \
+  --sha256 DIGEST --root /opt/rent-project
 ```
 
-以上命令只读预检，数据库密码隐藏输入。正式创建时，先向当前环境注入与后端一致的 `RENTAL_PRODUCT_AES_SECRET`，再执行：
+例如 `VERSION=v0.1.0` 对应 `rent-project-v0.1.0-docker.tar.gz`。先确认校验输出为 `OK` 再执行脚本，不使用 `curl | sh`。默认 `managed` 模式自动建立独立 MySQL 8、Redis、两个新业务库及管理员，再启动四个 Java 服务和 Nginx。管理员密码隐藏输入两次，不保存明文；其他部署密码与 AES 密钥独立生成并保存在私有 `.env`。
+
+默认入口仅在本机开放：`http://127.0.0.1:8080/platform/` 与 `http://127.0.0.1:8080/rent/`。需要虚构样本时，首次安装添加 `--demo` 并使用独立目录；演示模式只供本机，不配置真实支付、电子签或其他服务商凭据。
+
+首次安装中断后，先在本机排查原因，再用相同包、相同摘要和原目录执行：
 
 ```bash
-python scripts/initialize.py --host 127.0.0.1 --user db_bootstrap \
-  --platform-db equipment_platform --alipay-db equipment_alipay \
-  --execute --confirm-new-databases equipment_platform,equipment_alipay
+sh release-tools/install.sh ./rent-project-VERSION-docker.tar.gz \
+  --sha256 DIGEST --root /opt/rent-project --resume
 ```
 
-管理员默认名为 `admin`，密码由操作人设置，无公开默认密码。需要演示样本时，在本机隔离环境的首次命令添加 `--demo`；该实例不可填写真实服务商密钥。小程序 JWT 密钥由初始化程序随机生成并保存到平台配置，不需要另设环境变量。不支持 `mysql < sql/init.sql`。
+`--resume` 仅用于同版同摘要的未完成首次安装，沿用原 `.env` 参数及密钥；已成功健康运行的安装不能恢复初始化。已记录初始化成功时不再运行初始化器，否则由原完成标记检查保证：匹配完成的库只读返回，半完成或不匹配的库拒绝。若再次询问管理员密码，应输入最初设置的密码，已有账号不会被重置。
 
-## 启动
+外部 MySQL / RDS 使用 `--db-mode external --db-host 数据库域名 --db-user 应用账号`，可通过 `--init-user 初始化账号` 分离建库账号，并用 `--ssl-ca /本机路径/mysql-ca.pem` 提供私有 CA。密码隐藏输入，不支持 `--config`；目标必须是两个新库，远程 TLS 验证主机名，外部模式不支持演示数据。连接参数与账号权限见[部署手册](https://honesttai.github.io/rent-project/DEPLOYMENT/)。
 
-1. 复制 `.env.example` 为 `.env`，填写数据库、缓存及应用密钥，权限设为 `600`。AES 密钥与初始化使用值必须一致。
-2. 放入四个 JAR 和两套前端构建产物。
-3. 按 [Docker 官方文档](https://docs.docker.com/engine/install/) 安装 Docker Engine 与 Compose 插件。
-4. 执行 `sh install.sh --check` 验证部署文件，再执行 `sh install.sh` 启动服务。脚本不执行数据库初始化，也不自动安装系统软件。
-5. 默认从本机访问 `http://127.0.0.1:8080/platform/`、`http://127.0.0.1:8080/rent/`，确认登录与权限菜单，再按操作手册填写服务商配置、联调后启用需要的任务。默认网络独立，不需要预建共享入口网络；公网访问由自己的 HTTPS 反向代理接入。
+## 升级和回滚
+
+下载新包并完成同样的摘要验证，使用新包中的工具操作原安装目录：
 
 ```bash
-docker compose ps
-docker compose logs --tail=100 equipment-gateway equipment-platform equipment-alipay
+sh release-tools/upgrade.sh ./rent-project-VERSION-docker.tar.gz \
+  --sha256 DIGEST --root /opt/rent-project
+sh release-tools/rollback.sh --root /opt/rent-project
+# 也可指定保留的应用版本
+sh release-tools/rollback.sh --root /opt/rent-project --version 旧版本号
 ```
 
-数据库初始化成功不代表支付宝支付、免押、合同或通知已接通；这些能力需要部署者自己的应用、资质和环境配置。演示商品默认下架且不公开，没有真实订单或支付记录。
+升级检查包内清单及结构版本，停止应用写入后备份两个数据库、上传目录和 `.env`，再重建应用容器并等待健康检查。MySQL / Redis 的共享数据保留；本工具不自动迁移 SQL，不使用空库初始化来升级已有系统。新应用不健康时尝试恢复上一版，仍需检查最终恢复状态。
 
-初始化失败会保留新库用于排查；请勿用旧版含 `DROP TABLE` 的 SQL 重试，不要以生产库为初始化目标。
+**回滚只切换应用，不还原数据库或上传文件。** 需要恢复数据库时，先在独立环境验证 SQL 备份、上传数据、应用版本和 AES 密钥，再安排维护窗口恢复。不要删除共享数据或重新初始化来处理升级失败。
+
+## 持久化与包内容
+
+部署根目录保存 `.env`、`deploy-state.json`、`current` / `previous` 链接、`releases/<版本>`、`shared/` 与 `backups/`。数据库、Redis、上传和日志位于 `shared/`，跨应用升级保留；`.env` 中 AES 密钥必须稳定保存。
+
+发行归档根目录包含 `manifest.json`、Compose 配置、`jars/`、`www/`、`sql/`、`scripts/`、`nginx/` 与命令包装脚本。引擎按清单检查文件内容，不从用户的运行目录打包数据库、密钥、日志或上传内容。
+
+`scripts/initialize.py` 仅初始化新库，不提供覆盖、清库或升级选项；不要直接运行 `mysql < sql/init.sql`，也不要在业务库重放 `seed-*.sql` / `demo.sql`。初始化的结构和管理员行为见[初始化手册](https://honesttai.github.io/rent-project/INITIALIZATION/)。
+
+备份目录包含两个库的 `databases.sql.gz`、`uploads.tar.gz`、`.env` 和 `backup.json`；Redis 仅原位保留，不在此归档中。CA、发行版本与部署状态也要另行妥善保存。
+
+已安装后可运行 `python3 /opt/rent-project/current/scripts/deploy.py status --root /opt/rent-project` 查看健康状态；`check` 校验发行文件及配置，`backup` 会停应用、备份并重新启动，`stop` 仅停应用并保留 MySQL / Redis 和全部数据，`start` 启动当前版本并等待健康、不重新初始化。没有自动卸载或数据库恢复命令。
+
+Compose 失败的原始输出写入部署根目录 `deploy-private.log`，权限为 `600`；该文件可能含敏感配置，仅在本机排查，不能上传到 GitHub、工单或公开聊天。`shared/`、`backups/`、`.env` 同样属于私有运行数据。密钥保管与问题报告入口见[安全说明](https://github.com/honestTai/rent-project/blob/main/SECURITY.md)。

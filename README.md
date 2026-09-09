@@ -71,6 +71,10 @@
 
 ## 快速开始
 
+部署者可以从 [GitHub Releases](https://github.com/honestTai/rent-project/releases) 下载 Docker 发行包和同版 `SHA256SUMS`，校验后按[安装、升级与回滚手册](docs/DEPLOYMENT.md)执行。发行包包含后端 JAR 与两个前端，无需在服务器编译；默认使用独立 MySQL 8 / Redis，仅开放本机入口。安装机需要 Linux、Python 3.10+、Docker Engine 和 Compose 插件 2.20+，首次仍需联网获取 Docker 镜像。密钥保管与问题反馈见[安全说明](SECURITY.md)。
+
+以下流程用于从源码开发和运行：
+
 准备 JDK 8 或兼容 JDK、Maven 3.6+、Node.js 22、MySQL 8 和 Redis。Python 3.10+ 用于初始化工具及可选 Agent。
 
 ```bash
@@ -89,7 +93,7 @@ npm ci
 
 接下来按[快速开始](docs/QUICKSTART.md)设置数据库与 Redis 参数，依次运行注册中心、中台、租赁服务、网关和两个 Web 应用。默认本地入口为中台 `http://localhost:8084`、租赁运营 `http://localhost:8083`。
 
-Linux Docker Compose / 外部 MySQL 部署见 [部署说明](docs/DEPLOYMENT.md)。部署文件默认仅绑定本机入口，可接自己的 HTTPS 反向代理。
+发行包也支持外部 MySQL / RDS，安装、备份、升级与应用回滚见[部署说明](docs/DEPLOYMENT.md)。默认仅绑定本机入口，可接自己的 HTTPS 反向代理。
 
 ## 文档
 
@@ -99,6 +103,7 @@ Linux Docker Compose / 外部 MySQL 部署见 [部署说明](docs/DEPLOYMENT.md)
 - [支付宝 / e签宝 / 自动代扣](docs/manual/INTEGRATIONS.md)：配置截图、接入顺序、用户授权与当前界面边界。
 - [架构说明](docs/ARCHITECTURE.md)：模块分工、端口和 API 链路。
 - [部署说明](docs/DEPLOYMENT.md)：打包、Docker Compose、更新、备份与恢复。
+- [公开内容复查记录](docs/SECURITY_REVIEW.md)：已检查的公开历史、截图与 Actions 范围、当前结果及检查限制；不等同于应用安全审计。
 - [官方资料](docs/REFERENCES.md)：支付宝、许可证和文档工具的官方入口。
 - [贡献指南](CONTRIBUTING.md)与[安全说明](SECURITY.md)。
 
