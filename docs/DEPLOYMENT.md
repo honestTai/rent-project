@@ -209,3 +209,7 @@ python tools/build_release.py --version v0.1.0 --ref HEAD --output dist-release
 包内 `SOURCE_COMMIT`、`manifest.json` 和 `images.lock.json` 记录源码、文件摘要及基础镜像摘要。前端路径在构建中固定为 `/platform/`、`/rent/` 和 `/gateway`，与包内 Nginx 一致。不要混用不同版本的前端和 JAR。源码运行方式见[快速开始](QUICKSTART.md)。
 
 发行部署使用 `customer-deploy/` 中的工具；仓库根 `docker-compose.local.yml` 是部分开发服务配置，不是完整安装入口。Compose 的重建与等待行为见[官方 `docker compose up` 文档](https://docs.docker.com/reference/cli/docker/compose/up/)。
+
+维护者也可在 Actions 手动运行 **Build and test Docker installation package**，填写版本号。构建成功后，在 **Publish a verified Docker package** 填入该运行 ID 和同一版本；默认 `publish=false`，只审计实际安装包并输出不含凭据原值的小报告。复核报告通过后，再设置 `publish=true` 发布。工作流会再次扫描包、核对源码与文件摘要，先上传草稿附件，验证 GitHub 返回的附件摘要后才公开。
+
+若工作流在创建标签时遇到权限拒绝，维护者可在本机用已有 GitHub 授权为包内 `SOURCE_COMMIT` 创建对应的轻量标签，再勾选 `use_existing_tag`。此选项要求标签直接指向完全一致的源码提交；其他提交、间接标签和已存在的 Release 都会拒绝，不覆盖已有版本。个人账户凭据无需写入工作流或仓库。

@@ -15,8 +15,21 @@
 
 使用官方 Gitleaks 8.30.1 发行文件，校验官方 SHA256 后，以默认规则执行完整历史及公开 HEAD 扫描；不采用项目忽略规则，递归解码与归档深度均为 3。历史与 HEAD 各命中同一处测试 AES fixture：初始提交 `b2828cc` 的 `equipment-alipay/src/test/java/com/fly/rent/miniapp/user/AlipayPhoneDecryptServiceTest.java:24`。已确认它只被该测试引用，使用内存配置替身，RSA 密钥在测试运行时生成，属于测试材料而非部署凭据。Actions/Pages 内容与截图 OCR 文本的 Gitleaks 扫描均无命中。复查记录保留文件位置和类别，不在公开报告中展示疑似敏感值。
 
-追加检查 Docker 功能提交 `240921a73b33a68074afc4661b50d87c5d143f44` 后，完整历史为 4 次提交、823 个唯一 Git blob（765 个文本、58 个二进制）。逐 blob 复查与 Gitleaks 全历史扫描没有发现新的凭据问题，标准规则仍只命中上述测试 fixture。已结束的日志和 Pages 产物累计覆盖 8 次 Actions 运行、3 份 Pages 产物、383 份文本，Gitleaks 无命中，也没有人工确认的凭据泄露；Docker 构建尚在运行时的完整日志与实际发行包不计入这条结论。
+追加检查 Docker 功能提交 `240921a73b33a68074afc4661b50d87c5d143f44` 后，完整历史为 4 次提交、823 个唯一 Git blob（765 个文本、58 个二进制）。逐 blob 复查与 Gitleaks 全历史扫描没有发现新的凭据问题，标准规则仍只命中上述测试 fixture。已结束的日志和 Pages 产物累计覆盖 9 次 Actions 运行、3 份 Pages 产物、401 份文本，包含实际 Docker 安装、升级与恢复验证；Gitleaks 无命中，也没有人工确认的凭据泄露。实际发行包的补充审计结果另行记录。
 
 Docker 发行流程另设 `tools/check_release.py` 上传前检查：拒绝运行 `.env`、私钥文件、备份、日志、旧客户展示素材及不安全归档项，核对 manifest 的全部文件哈希，并扫描应用 JAR 与其自有 `equipment-common` 共享模块的配置和类常量。第三方依赖内的样例与测试材料不被自动认定为本项目部署密钥；新发行包仍需人工复核。
+
+`tools/audit_release.py` 在发行前对实际包重复执行上述检查，并将包内文本、自有应用与共享模块的 JVM 字符串常量交给默认规则的 Gitleaks 扫描。临时扫描材料会清理；持久报告只保留包 SHA256、源码提交、版本、文件/类数量及命中规则与路径。任何候选或扫描工具异常都会阻止发布，不能用不完整扫描报告代替通过结果。
+
+发行审计工具提交 `539bc38` 也已完成全历史复查：累计 5 次提交、833 个唯一 Git blob（775 个文本、58 个二进制），Gitleaks 仍仅命中上述测试 fixture，没有新增确认的敏感信息。
+
+实际 `v0.1.0` Docker 包已在 GitHub Linux 构建机完成[独立发行审计](https://github.com/honestTai/rent-project/actions/runs/34372641880)，并下载精简报告复核；包来自[安装、升级与恢复验证均通过的构建](https://github.com/honestTai/rent-project/actions/runs/34370480796)。这次复核读取的是真实构建产物。
+
+- 文件：`rent-project-v0.1.0-docker.tar.gz`。
+- 源码提交：`240921a73b33a68074afc4661b50d87c5d143f44`，与选定构建一致。
+- SHA256：`81108c315a3f77450c18c902602cc488ea9074188e89500eac1bf1a83fd7ac35`。
+- 清单：120 个归档文件，其中 manifest 列出其余 119 个文件；全部文件哈希一致。
+- 扫描：847 份文本内容，包含 670 个应用类、66 个应用资源、3 个自有 `equipment-common` 嵌套库和 1 个独立健康检查类。
+- 结果：发布检查通过，默认规则的 Gitleaks 8.30.1 没有候选；未发现确认的凭据、私钥或真实客户资料泄露。
 
 本页是公开内容的信息泄露复查记录，**不是应用安全审计，也不是“没有漏洞”或“绝无泄露”的保证**。自动规则与 OCR 均有识别边界；真实支付、代扣、权限、依赖漏洞和部署暴露面需要另行评估。发现问题请按[安全反馈说明](../SECURITY.md)私下报告，不要在公开 Issue 中粘贴凭据或客户资料。

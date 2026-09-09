@@ -38,6 +38,14 @@ def require_new_version(repository, version):
         raise ValueError("A draft or published Release already uses this version")
 
 
+def verify_existing_tag(repository, version, commit):
+    result = json.loads(gh("api", f"repos/{repository}/git/ref/tags/{version}"))
+    if (result.get("ref") != "refs/tags/" + version
+            or result.get("object", {}).get("type") != "commit"
+            or result.get("object", {}).get("sha") != commit):
+        raise ValueError("The explicitly selected existing lightweight tag must equal SOURCE_COMMIT")
+
+
 def main():
     repository = os.environ["GITHUB_REPOSITORY"]
     run_id, version = os.environ["SOURCE_RUN"], os.environ["RELEASE_VERSION"]
@@ -95,8 +103,11 @@ honestTai · honest.tai@outlook.com。感谢 [HRouter](https://hrouter.net) 赞�
 """, encoding="utf-8")
         # A new draft is required. Existing versions are never overwritten by a retry.
         require_new_version(repository, version)
-        reserve_tag(repository, version, source["head_sha"])
-        gh("release", "create", version, "--repo", repository, "--target", source["head_sha"], "--draft",
+        if os.getenv("USE_EXISTING_VERIFIED_TAG", "false") == "true":
+            verify_existing_tag(repository, version, source["head_sha"])
+        else:
+            reserve_tag(repository, version, source["head_sha"])
+        gh("release", "create", version, "--repo", repository, "--draft",
            "--verify-tag", "--title", version + " · Docker 安装、升级与回滚", "--notes-file", str(notes))
         gh("release", "upload", version, str(archive), str(checksums), "--repo", repository)
         releases = json.loads(gh("api", f"repos/{repository}/releases?per_page=100"))

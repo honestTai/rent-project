@@ -12,6 +12,10 @@ on:
         description: 'Publish after audit (false performs the package audit only)'
         type: boolean
         default: false
+      use_existing_tag:
+        description: 'Use a maintainer-created lightweight tag only if it exactly matches SOURCE_COMMIT'
+        type: boolean
+        default: false
 permissions:
   contents: write
   actions: read
@@ -46,13 +50,14 @@ jobs:
           sha256sum --check --ignore-missing gitleaks_8.30.1_checksums.txt
           tar -xzf gitleaks_8.30.1_linux_x64.tar.gz gitleaks
           echo "GITLEAKS_BINARY=$RUNNER_TEMP/gitleaks/gitleaks" >> "$GITHUB_ENV"
-      - name: Recheck selected artifact, upload draft assets and publish
+      - name: Audit selected artifact and optionally publish verified assets
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_RUN: ${{ inputs.run_id }}
           RELEASE_VERSION: ${{ inputs.version }}
           RELEASE_PUBLISH: ${{ inputs.publish }}
           PUBLICATION_REPORT: dist-audit/publication-audit.json
+          USE_EXISTING_VERIFIED_TAG: ${{ inputs.use_existing_tag }}
         run: python tools/publish_release.py
       - name: Retain the redacted package audit report
         if: always()

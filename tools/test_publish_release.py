@@ -8,6 +8,20 @@ import publish_release
 
 
 class TagBoundaryTests(unittest.TestCase):
+    def test_existing_tag_cannot_select_other_source_or_indirect_reference(self):
+        for kind, commit in (("commit", "b" * 40), ("tag", "a" * 40)):
+            result = {"ref": "refs/tags/v1.0.0", "object": {"type": kind, "sha": commit}}
+            with patch.object(publish_release, "gh", return_value=json.dumps(result)):
+                with self.assertRaises(ValueError):
+                    publish_release.verify_existing_tag("owner/repo", "v1.0.0", "a" * 40)
+
+    def test_explicit_existing_tag_is_read_only_and_matches_verified_source(self):
+        result = {"ref": "refs/tags/v1.0.0", "object": {"type": "commit", "sha": "a" * 40}}
+        with patch.object(publish_release, "gh", return_value=json.dumps(result)) as api:
+            publish_release.verify_existing_tag("owner/repo", "v1.0.0", "a" * 40)
+            self.assertNotIn("POST", api.call_args.args)
+            self.assertNotIn("PATCH", api.call_args.args)
+
     def test_existing_release_without_a_tag_cannot_be_retargeted(self):
         for draft in (True, False):
             with patch.object(publish_release, "gh", return_value=json.dumps([[], [{"tag_name": "v1.0.0", "draft": draft}]])) as api:
