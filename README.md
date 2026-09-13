@@ -5,7 +5,7 @@
 **让商品、租赁订单、合同与履约，在一套系统里协同。**  
 **Bring rental products, orders, contracts, and fulfillment together.**
 
-[图文操作手册 / User guide](https://honesttai.github.io/rent-project/) · [GitHub](https://github.com/honestTai/rent-project) · [HRouter](https://hrouter.net/home)
+[图文导览 / Visual tour](docs/SHOWCASE.md) · [部署指南 / Deploy](docs/DEPLOYMENT.md) · [下载部署包 / Download](https://github.com/honestTai/rent-project/releases/latest) · [HRouter](https://hrouter.net/home)
 
 </div>
 
@@ -19,6 +19,15 @@ Teams and developers building rental operations with Alipay workflows and electr
 
 包含服务端、两个 Web 应用与初始化工具，不包含支付宝小程序前端。  
 Includes server code, two web apps, and initialization tools; the Alipay Mini Program frontend is not included.
+
+## 从这里开始 · Start here
+
+| 你的目标 / Your goal | 推荐入口 / Start here |
+| --- | --- |
+| 先看系统能做什么 / Explore the product | [图文导览：商品、订单、合同与经营看板 / Visual tour](docs/SHOWCASE.md) |
+| 了解操作与业务边界 / Understand workflows | [逐页操作手册 / User guide](docs/USER_GUIDE.md) |
+| 自行部署试用 / Deploy it yourself | [部署说明 / Deployment](docs/DEPLOYMENT.md) · [正式版本 / Releases](https://github.com/honestTai/rent-project/releases/latest) |
+| 调整源码与二次开发 / Develop & customize | [快速开始 / Quick start](docs/QUICKSTART.md) · [架构 / Architecture](docs/ARCHITECTURE.md) |
 
 ## 系统特色
 
@@ -95,6 +104,7 @@ npm ci
 
 ## 文档
 
+- [图文导览](docs/SHOWCASE.md)：先用现有演示截图了解主要业务页面。
 - [快速开始](docs/QUICKSTART.md)：运行环境、配置、启动顺序与检查。
 - [初始化数据](docs/INITIALIZATION.md)：新库预检、管理员、权限、配置模板与虚构数据。
 - [操作手册](docs/USER_GUIDE.md)：33 页图文说明，包含筛选、每页按钮、弹窗字段、状态条件和常见问题。
@@ -113,26 +123,12 @@ npm ci
 前端页脚提供源代码入口；修改后部署时请将 `VITE_SOURCE_URL` 指向你运行版本的对应源码。
 服务器、存储和第三方 API 费用由使用者承担。
 
-## 作者与交流
+## 作者与服务 · Author & services
 
-由 [honestTai](https://github.com/honestTai) 维护。希望通过完整开放业务源码与操作文档，让更多开发者了解这个项目、参与改进。欢迎 Star、提交 Issue、分享使用反馈或贡献代码。
+由 [honestTai](https://github.com/honestTai) 维护。欢迎在 Issues 反馈使用体验；部署协助、培训和定制开发可通过 [邮件](mailto:honest.tai@outlook.com) 联系。  
+Maintained by honestTai. Share feedback in Issues, or email me about deployment, training, and customization.
 
-**联系邮箱：[honest.tai@outlook.com](mailto:honest.tai@outlook.com)**
+我也运营 [HRouter](https://hrouter.net/home)，提供面向 AI 编程与应用开发的模型接入服务。租赁系统的部署与代码使用不以购买该服务为前提。  
+I also operate HRouter, a model-access service for AI coding and applications. It is not a purchase requirement for this rental system.
 
-部署协助、操作培训、维护与定制开发可通过邮件联系；这些服务自愿选择，使用开源代码不以购买服务为前提。
-
-也欢迎了解我的另一个开源项目 **[ZZ Geo / geo-console](https://github.com/honestTai/geo-console)**：
-面向品牌与内容团队的 AI 搜索监测、证据诊断、内容整改与复测平台。
-
-## 作者与 HRouter · About the author
-
-我是 **honestTai**，开发工具，也运营 [HRouter](https://hrouter.net/home)。这里持续分享实用代码、AI 应用、Skills 与插件，把工作中的需求变成可复用的项目。  
-I’m **honestTai**, the developer and operator behind HRouter. I share practical code, AI apps, skills, and plugins built around real workflows.
-
-需要为 AI 编程或应用开发选择模型服务？HRouter 是我运营的模型路由服务。项目的供应商选择与接入方式见下方配置说明。  
-Building with AI? HRouter is my model-routing service for AI coding and applications. Follow this project’s configuration guide when choosing a model provider.
-
-[了解 HRouter · Explore HRouter](https://hrouter.net/home) · [发现更多项目 · More projects](https://github.com/honestTai)
-
-**觉得有用，欢迎 Star；有想法，欢迎到 Issues 交流。**  
-**Star the project if it helps, and share your ideas in Issues.**
+[了解 HRouter / Explore HRouter](https://hrouter.net/home) · [更多精选项目 / More projects](https://github.com/honestTai)
