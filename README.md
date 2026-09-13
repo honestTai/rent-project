@@ -2,19 +2,23 @@
 
 # Rent Project · 租赁业务管理系统
 
-**支付宝租赁 · e签宝电子合同 · 分期账单与自动代扣 · 全部仓库源码开放**
+**让商品、租赁订单、合同与履约，在一套系统里协同。**  
+**Bring rental products, orders, contracts, and fulfillment together.**
 
-管理商品、订单、履约、售后和经营报表，以统一权限和配置连接业务流程。
-
-[官方文档](https://honesttai.github.io/rent-project/) · [快速开始](docs/QUICKSTART.md) · [初始化数据](docs/INITIALIZATION.md) · [操作手册](docs/USER_GUIDE.md) · [GitHub](https://github.com/honestTai/rent-project)
-
-[联系作者](mailto:honest.tai@outlook.com) · [同作者开源项目：ZZ Geo](https://github.com/honestTai/geo-console)
-
-**AGPL-3.0-only · 自行部署 · 允许依协议商用**
+[图文操作手册 / User guide](https://honesttai.github.io/rent-project/) · [GitHub](https://github.com/honestTai/rent-project) · [HRouter](https://hrouter.net/home)
 
 </div>
 
-这是一套 Java + Vue 的租赁业务管理系统，包含中台管理后台、租赁运营后台、支付宝小程序后端接口，以及可单独运行的只读分析 Agent。通过支付宝处理租赁交易与售后，通过 e签宝管理电子签署，运营人员在后台维护商品、分期账单、履约与经营数据。仓库内自有业务源码按 AGPL-3.0-only 公开，欢迎学习、改进并依协议用于自己的业务。
+围绕租赁业务组织商品、订单、分期账单、电子合同与经营分析，用统一中台管理权限和配置。
+
+Organize products, orders, installment bills, electronic contracts, and business analytics with shared access and configuration management.
+
+**适合谁 / Who it’s for**  
+需要租赁运营后台、支付宝租赁接入和电子签约工作流的团队与开发者。  
+Teams and developers building rental operations with Alipay workflows and electronic contracts.
+
+包含服务端、两个 Web 应用与初始化工具，不包含支付宝小程序前端。  
+Includes server code, two web apps, and initialization tools; the Alipay Mini Program frontend is not included.
 
 ## 系统特色
 
@@ -48,12 +52,6 @@
 ![e签宝配置演示（敏感值为空）](docs/assets/screenshots/platform-config-esign.png)
 
 [逐页图文操作手册](docs/USER_GUIDE.md) · [支付宝 / e签宝 / 代扣接入说明](docs/manual/INTEGRATIONS.md)
-
-## 赞助商
-
-[![HRouter · AI 编程模型路由](docs/assets/hrouter-sponsor.svg)](https://hrouter.net/)
-
-感谢 [HRouter](https://hrouter.net/) 支持本项目。HRouter 提供面向开发者的多模型 API 路由服务，具体服务与价格以其官网为准。赞助不增加软件许可证限制。
 
 ## 能做什么
 
@@ -125,3 +123,16 @@ npm ci
 
 也欢迎了解我的另一个开源项目 **[ZZ Geo / geo-console](https://github.com/honestTai/geo-console)**：
 面向品牌与内容团队的 AI 搜索监测、证据诊断、内容整改与复测平台。
+
+## 作者与 HRouter · About the author
+
+我是 **honestTai**，开发工具，也运营 [HRouter](https://hrouter.net/home)。这里持续分享实用代码、AI 应用、Skills 与插件，把工作中的需求变成可复用的项目。  
+I’m **honestTai**, the developer and operator behind HRouter. I share practical code, AI apps, skills, and plugins built around real workflows.
+
+需要为 AI 编程或应用开发选择模型服务？HRouter 是我运营的模型路由服务。项目的供应商选择与接入方式见下方配置说明。  
+Building with AI? HRouter is my model-routing service for AI coding and applications. Follow this project’s configuration guide when choosing a model provider.
+
+[了解 HRouter · Explore HRouter](https://hrouter.net/home) · [发现更多项目 · More projects](https://github.com/honestTai)
+
+**觉得有用，欢迎 Star；有想法，欢迎到 Issues 交流。**  
+**Star the project if it helps, and share your ideas in Issues.**
