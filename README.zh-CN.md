@@ -13,7 +13,7 @@
 
 [图文导览 / Visual tour](docs/SHOWCASE.md) · [逐页操作手册 / User guide](docs/USER_GUIDE.md) · [部署指南 / Deploy](docs/DEPLOYMENT.md) · [下载部署包 / Download](https://github.com/honestTai/rent-project/releases/latest)
 
-[HRouter](https://hrouter.net/home) · [All public projects](https://github.com/honestTai) · [Star & Fork trends](#project-activity)
+[HRouter](https://hrouter.net/) · [All public projects](https://github.com/honestTai) · [Star & Fork trends](#project-activity)
 
 [English](README.md) · **简体中文**
 
@@ -23,7 +23,7 @@
 
 | 赞助商 | 简介 |
 | :--- | :--- |
-| [![HRouter](docs/assets/hrouter-sponsor.svg)](https://hrouter.net/home) | **[HRouter](https://hrouter.net/home)**：面向 AI 编程与应用开发的模型接入、API Key 管理与用量统计，也由作者运营。 |
+| [![HRouter](docs/assets/hrouter-sponsor.svg)](https://hrouter.net/) | **[HRouter](https://hrouter.net/)**：面向开发者的 AI 编程模型按量计费网关 —— 一把 API Key 直连 **Claude、OpenAI Codex / GPT、Google Gemini、DeepSeek**，零月费订阅，提供 [模型价格与 24h 实时状态](https://hrouter.net/models/)，一键接入 [Claude Code](https://hrouter.net/docs/claude-code/)、[Codex CLI](https://hrouter.net/docs/codex/)、[Gemini CLI](https://hrouter.net/docs/gemini-cli/) 与 [DeepSeek](https://hrouter.net/docs/deepseek/)。 |
 
 ## 🚀 快速开始
 
@@ -86,7 +86,7 @@ npm ci
 前端页脚提供源代码入口；修改后部署时请将 `VITE_SOURCE_URL` 指向你运行版本的对应源码。
 服务器、存储和第三方 API 费用由使用者承担。
 
-由 [honestTai](https://github.com/honestTai) 维护。欢迎在 Issues 反馈使用体验；部署协助、培训和定制开发可通过 [邮件](mailto:honest.tai@outlook.com) 联系。我也运营 [HRouter](https://hrouter.net/home)，提供面向 AI 编程与应用开发的模型接入服务。租赁系统的部署与代码使用不以购买该服务为前提。
+由 [honestTai](https://github.com/honestTai) 维护。欢迎在 Issues 反馈使用体验；部署协助、培训和定制开发可通过 [邮件](mailto:honest.tai@outlook.com) 联系。我也运营 [HRouter](https://hrouter.net/)，提供面向 AI 编程与应用开发的模型接入服务。租赁系统的部署与代码使用不以购买该服务为前提。
 
 <a id="project-activity"></a>
 
@@ -109,6 +109,6 @@ npm ci
 
 <div align="center">
 
-Made by **[honestTai](https://github.com/honestTai)** · [HRouter](https://hrouter.net/home) · [更多项目](https://github.com/honestTai)
+Made by **[honestTai](https://github.com/honestTai)** · [HRouter](https://hrouter.net/) · [更多项目](https://github.com/honestTai)
 
 </div>
