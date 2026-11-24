@@ -13,7 +13,7 @@ A rental operations system for teams and developers working with Alipay rental w
 
 [Visual tour](docs/SHOWCASE.md) · [User guide](docs/USER_GUIDE.md) · [Deployment](docs/DEPLOYMENT.md) · [Releases](https://github.com/honestTai/rent-project/releases/latest)
 
-[HRouter](https://hrouter.net/home) · [All public projects](https://github.com/honestTai) · [Star & Fork trends](#project-activity)
+[HRouter](https://hrouter.net/) · [All public projects](https://github.com/honestTai) · [Star & Fork trends](#project-activity)
 
 **English** · [简体中文](README.zh-CN.md)
 
@@ -23,7 +23,7 @@ A rental operations system for teams and developers working with Alipay rental w
 
 | Sponsor | What it is |
 | :--- | :--- |
-| [![HRouter](docs/assets/hrouter-sponsor.svg)](https://hrouter.net/home) | **[HRouter](https://hrouter.net/home)**: model access, API key management, and usage tracking for AI coding and application development. Also operated by the maintainer. |
+| [![HRouter](docs/assets/hrouter-sponsor.svg)](https://hrouter.net/) | **[HRouter](https://hrouter.net/)**: pay-as-you-go AI coding API gateway — one API key for **Claude, OpenAI Codex / GPT, Google Gemini & DeepSeek** with live [Models & 24h Status](https://hrouter.net/models/), native setup for [Claude Code](https://hrouter.net/docs/claude-code/), [Codex CLI](https://hrouter.net/docs/codex/), [Gemini CLI](https://hrouter.net/docs/gemini-cli/) & [DeepSeek](https://hrouter.net/docs/deepseek/). Also operated by the maintainer. |
 
 ## 🚀 Quick start
 
@@ -82,7 +82,7 @@ The linked detailed guides are primarily in Chinese; the English overview does n
 
 Project-owned code uses [AGPL-3.0-only](LICENSE). Consult the full license for use, modification, distribution, and network-service obligations; preserve third-party licenses in [NOTICE](NOTICE) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). When deploying modifications, point the frontend's `VITE_SOURCE_URL` to the corresponding source of the version you run. Infrastructure, storage, and third-party API costs are yours.
 
-Maintained by [honestTai](https://github.com/honestTai). Use Issues for feedback or [email](mailto:honest.tai@outlook.com) for deployment, training, and customization. The author's separate [HRouter](https://hrouter.net/home) service is **not a purchase requirement** for using or deploying this rental system.
+Maintained by [honestTai](https://github.com/honestTai). Use Issues for feedback or [email](mailto:honest.tai@outlook.com) for deployment, training, and customization. The author's separate [HRouter](https://hrouter.net/) service is **not a purchase requirement** for using or deploying this rental system.
 
 <a id="project-activity"></a>
 
@@ -105,6 +105,6 @@ Star / Fork totals and retained-event history, scheduled to refresh daily.
 
 <div align="center">
 
-Made by **[honestTai](https://github.com/honestTai)** · [HRouter](https://hrouter.net/home) · [More projects](https://github.com/honestTai)
+Made by **[honestTai](https://github.com/honestTai)** · [HRouter](https://hrouter.net/) · [More projects](https://github.com/honestTai)
 
 </div>
